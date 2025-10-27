@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import { Baby, BookOpen, Heart, MessageCircle, Palette, Smile, Target } from "lucide-react";
+import { useEffect, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import BlogCard from "@/components/BlogCard";
@@ -9,42 +11,63 @@ import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-image.jpg";
 
 const Home = () => {
-  const categories = [
-    { name: "Play", icon: Palette, slug: "play" },
-    { name: "Pregnancy & Newborn", icon: Baby, slug: "pregnancy-newborn" },
-    { name: "Tantrums", icon: MessageCircle, slug: "tantrums" },
-    { name: "Developmental Milestones", icon: Target, slug: "child-developmental-milestones" },
-    { name: "Parenting Challenges", icon: Heart, slug: "parenting-challenges" },
-    { name: "Discipline", icon: Smile, slug: "discipline" },
-    { name: "Parenting Tips", icon: BookOpen, slug: "parenting-tips" },
-  ];
+  const [latestPosts, setLatestPosts] = useState<any[]>([]);
+  const [categories, setCategories] = useState<any[]>([]);
 
-  const latestPosts = [
-    {
-      id: "1",
-      title: "Understanding Toddler Tantrums: A Gentle Approach",
-      excerpt: "Tantrums are a normal part of development. Learn how to respond with empathy while maintaining healthy boundaries.",
-      image: "https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=800&q=80",
-      date: "March 15, 2024",
-      category: "Tantrums"
-    },
-    {
-      id: "2",
-      title: "The Power of Play: Why Unstructured Time Matters",
-      excerpt: "Discover why free play is essential for your child's development and how to create space for it in busy schedules.",
-      image: "https://images.unsplash.com/photo-1587616211892-579fcd6f23e9?w=800&q=80",
-      date: "March 12, 2024",
-      category: "Play"
-    },
-    {
-      id: "3",
-      title: "First Trimester: What to Expect When You're Expecting",
-      excerpt: "A comprehensive guide to navigating the exciting and challenging first three months of pregnancy.",
-      image: "https://images.unsplash.com/photo-1493894473891-10fc1e5dbd22?w=800&q=80",
-      date: "March 8, 2024",
-      category: "Pregnancy & Newborn"
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    const [postsResult, categoriesResult] = await Promise.all([
+      supabase
+        .from("blog_posts")
+        .select("*, categories(name)")
+        .eq("published", true)
+        .order("created_at", { ascending: false })
+        .limit(3),
+      supabase
+        .from("categories")
+        .select("*")
+        .order("name")
+    ]);
+
+    if (postsResult.data) {
+      setLatestPosts(postsResult.data.map(post => ({
+        id: post.slug,
+        title: post.title,
+        excerpt: post.excerpt,
+        image: post.featured_image,
+        date: new Date(post.created_at).toLocaleDateString("en-US", {
+          year: "numeric",
+          month: "long",
+          day: "numeric"
+        }),
+        category: post.categories?.name || "Uncategorized"
+      })));
     }
-  ];
+
+    if (categoriesResult.data) {
+      setCategories(categoriesResult.data.map(cat => ({
+        name: cat.name,
+        icon: getIconForCategory(cat.name),
+        slug: cat.slug
+      })));
+    }
+  };
+
+  const getIconForCategory = (name: string) => {
+    const iconMap: Record<string, any> = {
+      "Play": Palette,
+      "Pregnancy & Newborn": Baby,
+      "Tantrums": MessageCircle,
+      "Child Developmental Milestones": Target,
+      "Parenting Challenges": Heart,
+      "Discipline": Smile,
+      "Parenting Tips": BookOpen,
+    };
+    return iconMap[name] || BookOpen;
+  };
 
   const testimonials = [
     { text: "This blog makes me feel seen as a parent.", author: "Sarah M." },
@@ -112,15 +135,27 @@ const Home = () => {
           </div>
         </section>
 
-        {/* Categories Grid */}
-        <section className="py-16">
-          <div className="container mx-auto px-4">
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-              Explore Parenting Topics
-            </h2>
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {/* Categories Grid - Search by Topic */}
+        <section className="py-16 relative overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5 rounded-3xl"></div>
+          <div className="container mx-auto px-4 relative z-10">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl md:text-5xl font-bold mb-4">
+                Search by Topic
+              </h2>
+              <p className="text-xl text-muted-foreground">
+                Explore parenting wisdom by category
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-3 justify-center max-w-4xl mx-auto">
               {categories.map((category) => (
-                <CategoryTile key={category.slug} {...category} />
+                <Link
+                  key={category.slug}
+                  to={`/blog/category/${category.slug}`}
+                  className="px-6 py-3 rounded-full bg-gradient-to-r from-primary/20 to-secondary/20 hover:from-primary/30 hover:to-secondary/30 border-2 border-primary/30 hover:border-primary/50 transition-all duration-300 hover:scale-105 hover:shadow-lg font-medium text-lg"
+                >
+                  {category.name}
+                </Link>
               ))}
             </div>
           </div>

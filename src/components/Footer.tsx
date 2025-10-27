@@ -2,11 +2,21 @@ import { Facebook, Instagram, Mail, Twitter } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
+import footerLogo from "@/assets/crayon_edge_footer_logo.webp";
 
 const Footer = () => {
   return (
     <footer className="bg-muted mt-20">
       <div className="container mx-auto px-4 py-12">
+        {/* Footer Logo */}
+        <div className="flex justify-center mb-8">
+          <img 
+            src={footerLogo} 
+            alt="CrayonEdge" 
+            className="h-16 md:h-20"
+          />
+        </div>
+        
         <div className="grid md:grid-cols-2 gap-12 mb-8">
           {/* Newsletter/Comment Section */}
           <div>

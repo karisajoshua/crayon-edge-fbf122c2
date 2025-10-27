@@ -1,11 +1,14 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X, ChevronDown } from "lucide-react";
+import { Menu, X, ChevronDown, LogOut } from "lucide-react";
 import { Button } from "./ui/button";
+import { useAuth } from "@/contexts/AuthContext";
+import logo from "@/assets/crayonedge_logo.webp";
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isBlogOpen, setIsBlogOpen] = useState(false);
+  const { user, isAdmin, signOut } = useAuth();
 
   const categories = [
     "Play",
@@ -22,8 +25,12 @@ const Navigation = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link to="/" className="font-bold text-2xl heading-font text-primary-dark hover:text-primary transition-smooth">
-            CrayonEdge
+          <Link to="/" className="flex items-center">
+            <img 
+              src={logo} 
+              alt="CrayonEdge Logo" 
+              className="h-10 md:h-12"
+            />
           </Link>
 
           {/* Desktop Navigation */}
@@ -71,6 +78,25 @@ const Navigation = () => {
             <Link to="/contact" className="heading-font font-medium hover:text-primary transition-smooth">
               Contact
             </Link>
+            
+            {isAdmin && (
+              <Link to="/admin" className="heading-font font-medium hover:text-primary transition-smooth">
+                Admin
+              </Link>
+            )}
+            
+            {user ? (
+              <Button variant="ghost" size="sm" onClick={() => signOut()}>
+                <LogOut className="w-4 h-4 mr-2" />
+                Sign Out
+              </Button>
+            ) : (
+              <Link to="/auth">
+                <Button variant="outline" size="sm">
+                  Sign In
+                </Button>
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -109,6 +135,32 @@ const Navigation = () => {
               <Link to="/contact" className="heading-font font-medium hover:text-primary transition-smooth">
                 Contact
               </Link>
+              
+              {isAdmin && (
+                <Link to="/admin" className="heading-font font-medium hover:text-primary transition-smooth">
+                  Admin
+                </Link>
+              )}
+              
+              {user ? (
+                <Button 
+                  variant="ghost" 
+                  className="w-full justify-start" 
+                  onClick={() => {
+                    signOut();
+                    setIsOpen(false);
+                  }}
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Sign Out
+                </Button>
+              ) : (
+                <Link to="/auth" onClick={() => setIsOpen(false)}>
+                  <Button variant="outline" className="w-full">
+                    Sign In
+                  </Button>
+                </Link>
+              )}
             </div>
           </div>
         )}

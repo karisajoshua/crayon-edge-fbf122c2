@@ -31,6 +31,10 @@ export default {
           light: "hsl(var(--secondary-light))",
           dark: "hsl(var(--secondary-dark))",
         },
+        footer: {
+          DEFAULT: "hsl(var(--footer))",
+          foreground: "hsl(var(--footer-foreground))",
+        },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",

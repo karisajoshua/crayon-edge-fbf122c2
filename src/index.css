@@ -8,9 +8,9 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* CrayonEdge Design System - Calming Parenting Blog */
+    /* CrayonEdge Design System - Custom Colors */
     --background: 0 0% 100%;
-    --foreground: 0 0% 20%; /* Charcoal Grey #333333 */
+    --foreground: 0 0% 20%;
 
     --card: 0 0% 100%;
     --card-foreground: 0 0% 20%;
@@ -18,36 +18,37 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 20%;
 
-    /* Soft Blue - Primary Accent */
-    --primary: 205 56% 77%; /* #A3C7E5 */
+    /* Light Mint Green #e4f2ea */
+    --primary: 145 33% 92%;
     --primary-foreground: 0 0% 20%;
-    --primary-light: 205 56% 85%;
-    --primary-dark: 205 56% 65%;
+    --primary-light: 145 33% 95%;
+    --primary-dark: 145 33% 85%;
 
-    /* Sage Green - Secondary Accent */
-    --secondary: 106 30% 79%; /* #BFD8B8 */
+    /* Light Pink #fbe4ec */
+    --secondary: 333 60% 94%;
     --secondary-foreground: 0 0% 20%;
-    --secondary-light: 106 30% 87%;
-    --secondary-dark: 106 30% 68%;
+    --secondary-light: 333 60% 97%;
+    --secondary-dark: 333 60% 88%;
 
-    --muted: 0 0% 96%; /* Light Grey #F5F5F5 */
-    --muted-foreground: 0 0% 45%;
-
-    --accent: 106 30% 79%;
+    /* Light Peach #fee5d2 */
+    --accent: 25 97% 91%;
     --accent-foreground: 0 0% 20%;
+
+    /* Light Blue for Footer #a5d8ee */
+    --footer: 196 60% 75%;
+    --footer-foreground: 0 0% 20%;
+
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
 
     --destructive: 0 72% 51%;
     --destructive-foreground: 0 0% 100%;
 
     --border: 0 0% 90%;
     --input: 0 0% 90%;
-    --ring: 205 56% 77%;
+    --ring: 145 33% 92%;
 
     --radius: 0.75rem;
-
-    /* Gradients */
-    --gradient-soft: linear-gradient(135deg, hsl(205 56% 85%) 0%, hsl(106 30% 87%) 100%);
-    --gradient-hero: linear-gradient(180deg, hsl(0 0% 100%) 0%, hsl(205 56% 95%) 100%);
     
     /* Transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -86,13 +87,5 @@ All colors MUST be HSL.
 @layer utilities {
   .transition-smooth {
     transition: var(--transition-smooth);
-  }
-
-  .gradient-soft {
-    background: var(--gradient-soft);
-  }
-
-  .gradient-hero {
-    background: var(--gradient-hero);
   }
 }

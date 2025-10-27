@@ -81,7 +81,7 @@ const Home = () => {
       
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="gradient-hero py-20 md:py-32">
+        <section className="bg-primary py-20 md:py-32">
           <div className="container mx-auto px-4">
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div className="space-y-6">
@@ -117,7 +117,7 @@ const Home = () => {
         </section>
 
         {/* About Preview */}
-        <section className="py-16 bg-muted">
+        <section className="py-16 bg-secondary">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center space-y-6">
               <h2 className="text-3xl md:text-4xl font-bold">Welcome to CrayonEdge</h2>
@@ -136,9 +136,8 @@ const Home = () => {
         </section>
 
         {/* Categories Grid - Search by Topic */}
-        <section className="py-16 relative overflow-hidden">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-secondary/5 to-accent/5 rounded-3xl"></div>
-          <div className="container mx-auto px-4 relative z-10">
+        <section className="py-16 bg-accent">
+          <div className="container mx-auto px-4">
             <div className="text-center mb-12">
               <h2 className="text-4xl md:text-5xl font-bold mb-4">
                 Search by Topic
@@ -152,7 +151,7 @@ const Home = () => {
                 <Link
                   key={category.slug}
                   to={`/blog/category/${category.slug}`}
-                  className="px-6 py-3 rounded-full bg-gradient-to-r from-primary/20 to-secondary/20 hover:from-primary/30 hover:to-secondary/30 border-2 border-primary/30 hover:border-primary/50 transition-all duration-300 hover:scale-105 hover:shadow-lg font-medium text-lg"
+                  className="px-6 py-3 rounded-full bg-white/50 hover:bg-white/80 border-2 border-white/30 hover:border-white/50 transition-all duration-300 hover:scale-105 hover:shadow-lg font-medium text-lg"
                 >
                   {category.name}
                 </Link>
@@ -162,7 +161,7 @@ const Home = () => {
         </section>
 
         {/* Latest Posts */}
-        <section className="py-16 bg-muted">
+        <section className="py-16 bg-secondary">
           <div className="container mx-auto px-4">
             <div className="flex justify-between items-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold">Latest Articles</h2>

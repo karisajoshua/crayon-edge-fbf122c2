@@ -6,7 +6,7 @@ import footerLogo from "@/assets/crayon_edge_footer_logo.webp";
 
 const Footer = () => {
   return (
-    <footer className="bg-muted mt-20">
+    <footer className="bg-[hsl(var(--footer))] mt-20">
       <div className="container mx-auto px-4 py-12">
         {/* Footer Logo */}
         <div className="flex justify-center mb-8">

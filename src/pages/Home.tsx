@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import BlogCard from "@/components/BlogCard";
 import CategoryTile from "@/components/CategoryTile";
 import TestimonialCard from "@/components/TestimonialCard";
+import WaveDivider from "@/components/WaveDivider";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-image.jpg";
 
@@ -117,7 +118,7 @@ const Home = () => {
         </section>
 
         {/* About Preview */}
-        <section className="py-16 bg-secondary">
+        <section className="py-16">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center space-y-6">
               <h2 className="text-3xl md:text-4xl font-bold">Welcome to CrayonEdge</h2>
@@ -136,32 +137,36 @@ const Home = () => {
         </section>
 
         {/* Categories Grid - Search by Topic */}
-        <section className="py-16 bg-accent">
-          <div className="container mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-4xl md:text-5xl font-bold mb-4">
-                Search by Topic
-              </h2>
-              <p className="text-xl text-muted-foreground">
-                Explore parenting wisdom by category
-              </p>
-            </div>
-            <div className="flex flex-wrap gap-3 justify-center max-w-4xl mx-auto">
-              {categories.map((category) => (
-                <Link
-                  key={category.slug}
-                  to={`/blog/category/${category.slug}`}
-                  className="px-6 py-3 rounded-full bg-white/50 hover:bg-white/80 border-2 border-white/30 hover:border-white/50 transition-all duration-300 hover:scale-105 hover:shadow-lg font-medium text-lg"
-                >
-                  {category.name}
-                </Link>
-              ))}
+        <section className="relative">
+          <WaveDivider position="top" color="#fee5d2" />
+          <div className="bg-accent py-16">
+            <div className="container mx-auto px-4">
+              <div className="text-center mb-12">
+                <h2 className="text-4xl md:text-5xl font-bold mb-4">
+                  Search by Topic
+                </h2>
+                <p className="text-xl text-muted-foreground">
+                  Explore parenting wisdom by category
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-3 justify-center max-w-4xl mx-auto">
+                {categories.map((category) => (
+                  <Link
+                    key={category.slug}
+                    to={`/blog/category/${category.slug}`}
+                    className="px-6 py-3 bg-white hover:bg-white/90 border-2 border-white/50 hover:border-white transition-all duration-300 hover:scale-105 hover:shadow-lg font-medium text-lg"
+                  >
+                    {category.name}
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
+          <WaveDivider position="bottom" color="#fee5d2" />
         </section>
 
         {/* Latest Posts */}
-        <section className="py-16 bg-secondary">
+        <section className="py-16">
           <div className="container mx-auto px-4">
             <div className="flex justify-between items-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold">Latest Articles</h2>
@@ -185,7 +190,7 @@ const Home = () => {
             </h2>
             <div className="grid md:grid-cols-3 gap-8">
               {testimonials.map((testimonial, index) => (
-                <TestimonialCard key={index} {...testimonial} />
+                <TestimonialCard key={index} {...testimonial} colorIndex={index} />
               ))}
             </div>
           </div>

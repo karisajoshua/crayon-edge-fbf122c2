@@ -1,24 +1,39 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X, ChevronDown, LogOut } from "lucide-react";
 import { Button } from "./ui/button";
 import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import logo from "@/assets/crayonedge_logo.webp";
+
+interface Category {
+  id: string;
+  name: string;
+  slug: string;
+  image_url: string | null;
+  color: string | null;
+}
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isBlogOpen, setIsBlogOpen] = useState(false);
+  const [categories, setCategories] = useState<Category[]>([]);
   const { user, isAdmin, signOut } = useAuth();
 
-  const categories = [
-    "Play",
-    "Pregnancy & Newborn",
-    "Tantrums",
-    "Child Developmental Milestones",
-    "Parenting Challenges",
-    "Discipline",
-    "Parenting Tips",
-  ];
+  useEffect(() => {
+    fetchCategories();
+  }, []);
+
+  const fetchCategories = async () => {
+    const { data } = await supabase
+      .from("categories")
+      .select("*")
+      .order("name");
+    
+    if (data) {
+      setCategories(data);
+    }
+  };
 
   return (
     <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
@@ -64,17 +79,28 @@ const Navigation = () => {
                   <div className="grid grid-cols-3 gap-4">
                     {categories.map((category) => (
                       <Link
-                        key={category}
-                        to={`/blog/category/${category.toLowerCase().replace(/\s+/g, '-')}`}
+                        key={category.id}
+                        to={`/blog/category/${category.slug}`}
                         className="group"
                       >
-                        <div className="aspect-video bg-accent rounded-lg mb-2 overflow-hidden group-hover:bg-accent/80 transition-smooth">
-                          <div className="w-full h-full flex items-center justify-center text-4xl">
-                            {category.split(' ')[0][0]}
-                          </div>
+                        <div className="aspect-video rounded-lg mb-2 overflow-hidden group-hover:opacity-90 transition-smooth">
+                          {category.image_url ? (
+                            <img 
+                              src={category.image_url} 
+                              alt={category.name}
+                              className="w-full h-full object-cover"
+                            />
+                          ) : (
+                            <div 
+                              className="w-full h-full flex items-center justify-center text-4xl font-bold text-white"
+                              style={{ backgroundColor: category.color || '#e4f2ea' }}
+                            >
+                              {category.name.split(' ')[0][0]}
+                            </div>
+                          )}
                         </div>
                         <p className="text-sm font-medium group-hover:text-primary transition-smooth">
-                          {category}
+                          {category.name}
                         </p>
                       </Link>
                     ))}
@@ -132,11 +158,11 @@ const Navigation = () => {
               <div className="pl-4 space-y-2">
                 {categories.map((category) => (
                   <Link
-                    key={category}
-                    to={`/blog/category/${category.toLowerCase().replace(/\s+/g, '-')}`}
+                    key={category.id}
+                    to={`/blog/category/${category.slug}`}
                     className="block text-sm text-muted-foreground hover:text-primary transition-smooth"
                   >
-                    {category}
+                    {category.name}
                   </Link>
                 ))}
               </div>

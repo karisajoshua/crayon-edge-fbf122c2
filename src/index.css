@@ -48,7 +48,7 @@ All colors MUST be HSL.
     --input: 0 0% 90%;
     --ring: 145 33% 92%;
 
-    --radius: 0.75rem;
+    --radius: 0rem;
     
     /* Transitions */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -61,7 +61,7 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-white text-foreground;
     font-family: Georgia, 'Times New Roman', serif;
     font-size: 18px;
     line-height: 1.7;

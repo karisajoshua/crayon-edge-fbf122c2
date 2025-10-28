@@ -13,11 +13,12 @@ import Contact from "./pages/Contact";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
 import AdminLayout from "./components/admin/AdminLayout";
-import Dashboard from "./pages/admin/Dashboard";
-import PostEditor from "./pages/admin/PostEditor";
-import PostsList from "./pages/admin/PostsList";
-import MediaManager from "./pages/admin/MediaManager";
-import Categories from "./pages/admin/Categories";
+import Dashboard from "@/pages/admin/Dashboard";
+import PostsList from "@/pages/admin/PostsList";
+import PostEditor from "@/pages/admin/PostEditor";
+import MediaManager from "@/pages/admin/MediaManager";
+import Categories from "@/pages/admin/Categories";
+import UserManagement from "@/pages/admin/UserManagement";
 
 const queryClient = new QueryClient();
 
@@ -44,6 +45,7 @@ const App = () => (
               <Route path="posts/edit/:id" element={<PostEditor />} />
               <Route path="media" element={<MediaManager />} />
               <Route path="categories" element={<Categories />} />
+              <Route path="users" element={<UserManagement />} />
             </Route>
             
             <Route path="*" element={<NotFound />} />

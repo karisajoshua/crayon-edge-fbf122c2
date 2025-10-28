@@ -1,7 +1,7 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
-import { LayoutDashboard, FileText, Image, FolderOpen, LogOut } from "lucide-react";
+import { LayoutDashboard, FileText, Image, FolderOpen, LogOut, Users } from "lucide-react";
 
 const AdminLayout = () => {
   const { signOut } = useAuth();
@@ -44,6 +44,12 @@ const AdminLayout = () => {
                   <Button variant="ghost" size="sm">
                     <FolderOpen className="w-4 h-4 mr-2" />
                     Categories
+                  </Button>
+                </Link>
+                <Link to="/admin/users">
+                  <Button variant="ghost" size="sm">
+                    <Users className="w-4 h-4 mr-2" />
+                    Users
                   </Button>
                 </Link>
               </div>

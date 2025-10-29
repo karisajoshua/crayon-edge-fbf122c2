@@ -22,7 +22,7 @@ const Footer = () => {
           <div>
             <h3 className="text-2xl font-bold mb-4">Stay Connected</h3>
             <p className="text-muted-foreground mb-4">
-              Get gentle parenting wisdom delivered to your inbox
+              Get simple, intentional parenting guidance straight to your inbox.
             </p>
             <div className="flex gap-2">
               <Input 
@@ -54,7 +54,7 @@ const Footer = () => {
               </a>
             </div>
             <p className="text-sm text-muted-foreground">
-              CrayonEdge is a space for parents seeking gentle, evidence-based guidance through the beautiful chaos of raising little humans.
+              CrayonEdge is a space for parents seeking simple, evidence-based guidance to raise children with purpose.
             </p>
           </div>
         </div>

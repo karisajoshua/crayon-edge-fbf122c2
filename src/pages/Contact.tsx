@@ -15,7 +15,7 @@ const Contact = () => {
           <div className="container mx-auto px-4 text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-4">Get in Touch</h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-              I'd love to hear from you. Whether you have questions, suggestions, or just want to say hi.
+              I'd love to hear from you. Whether you have a question, a suggestion, or simply want to say hi!
             </p>
           </div>
         </section>
@@ -25,7 +25,7 @@ const Contact = () => {
             <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
               {/* Contact Form */}
               <div>
-                <h2 className="text-3xl font-bold mb-6">Send a Message</h2>
+                <h2 className="text-3xl font-bold mb-6">Get in Touch</h2>
                 <form className="space-y-4">
                   <div>
                     <label className="block text-sm font-medium mb-2">Your Name</label>
@@ -55,10 +55,9 @@ const Contact = () => {
               {/* Contact Info */}
               <div className="space-y-8">
                 <div>
-                  <h2 className="text-3xl font-bold mb-6">Connect With Me</h2>
+                  <h2 className="text-3xl font-bold mb-6">Connect with me</h2>
                   <p className="text-muted-foreground mb-6">
-                    I try to respond to all messages within 48 hours. For urgent matters, 
-                    please reach out via email directly.
+                    I respond to messages within 48 hrs. For anything urgent, please reach out directly via email.
                   </p>
                 </div>
 
@@ -98,8 +97,7 @@ const Contact = () => {
                 <div className="bg-secondary-light rounded-xl p-6">
                   <h3 className="font-bold mb-3">Interested in Collaborating?</h3>
                   <p className="text-sm text-muted-foreground">
-                    I'm open to partnerships with brands that align with gentle parenting values. 
-                    Please include "Partnership" in your subject line.
+                    I'm open to partnerships with brands that share the values of intentional parenting, child development, and mindful family living. Please include "partnership" in your subject line.
                   </p>
                 </div>
               </div>

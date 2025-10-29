@@ -87,10 +87,10 @@ const Home = () => {
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div className="space-y-6">
                 <h1 className="text-5xl md:text-6xl font-bold leading-tight">
-                  Gentle wisdom for modern parenting
+                  Where Parenting Meets Understanding
                 </h1>
                 <p className="text-xl text-muted-foreground">
-                  A calm, supportive space for real-life parenting insights — from tantrums to milestones, all in one place.
+                  A calm and supportive space for real-life parenting insights grounded in child development and psychology.
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <Link to="/blog">
@@ -123,9 +123,7 @@ const Home = () => {
             <div className="max-w-3xl mx-auto text-center space-y-6">
               <h2 className="text-3xl md:text-4xl font-bold">Welcome to CrayonEdge</h2>
               <p className="text-lg">
-                Hi, I'm a parent navigating the ups and downs of raising little humans — just like you. 
-                CrayonEdge is my journal of lessons, laughter, and loving boundaries. This is a space where 
-                imperfect parenting is celebrated, and where we grow together, one crayon stroke at a time.
+                Hi, I am a mother learning my way through the ups and downs of raising two little humans, just like you. CrayonEdge is my journal of lessons, the laughter that keeps me going, and the boundaries that help us all breathe easier. This is a space where the imperfect days are welcomed, and where we grow together while nurturing our children's little steps.
               </p>
               <Link to="/about">
                 <Button variant="outline" size="lg">

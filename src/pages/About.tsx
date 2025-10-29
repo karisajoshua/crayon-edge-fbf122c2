@@ -10,9 +10,9 @@ const About = () => {
       <main className="flex-1">
         <article className="container mx-auto px-4 py-16 max-w-4xl">
           <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">About CrayonEdge</h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">Hi, I'm Flois!</h1>
             <p className="text-xl text-muted-foreground">
-              A parent's journey through gentle wisdom and loving boundaries
+              A parent's journey through intentional parenting and child development
             </p>
           </div>
 
@@ -23,26 +23,22 @@ const About = () => {
               </div>
               
               <p className="text-lg leading-relaxed">
-                Hi, I'm the parent behind CrayonEdge. Like you, I'm navigating the beautiful, 
-                messy, overwhelming, and magical journey of raising little humans. Some days I get 
-                it right. Many days I don't. But every day, I'm learning.
+                I've always believed in parenting with intention, where you understand your child and make thoughtful choices that support their growth, confidence, and emotional well-being. My interest in how children think and feel guided me toward a Bachelor's degree, then a Master's in Early Childhood Development, where I focused on the kinds of support that help children feel safe, capable, and loved, as well as on what strengthens the parent-child bond. Parenting is not always easy. Some days I get it right, some days I do not, but every day I learn something new about myself and my children, which makes the whole journey meaningful.
               </p>
             </div>
 
             <div className="space-y-6">
               <h2 className="text-3xl font-bold">Why CrayonEdge?</h2>
               <p>
-                I started this blog because I needed a space to process my own parenting journey. 
-                A place to document what works, what doesn't, and what I'm still figuring out. 
-                The name "CrayonEdge" represents the delicate balance we walk as parents — staying 
-                creative and playful (like crayons) while also establishing boundaries and structure 
-                (the edge).
+                This blog began with real moments in parenting, the ones filled with joy and the doubts that sneak in when you wonder if you are doing enough. Parenting today comes with so much comparison and the endless pressure to look perfect, but this space is the opposite of that. Here, we celebrate the small wins, acknowledge the hard days, and keep growing together.
               </p>
               
               <p>
-                Modern parenting is hard. We're bombarded with conflicting advice, comparison culture, 
-                and the pressure to be perfect. This blog is the opposite of that. Here, we embrace 
-                imperfection. We celebrate small wins. We acknowledge the hard days. And we grow together.
+                Choosing to parent with intention changed how I showed up for my children, and CrayonEdge grew from that shift. Children need room to explore and express themselves (just like crayons creating freely), but they also need clear boundaries and structures that help them feel safe and supported (the edge that gives them direction). That balance between freedom and boundaries is where real parenting happens, and CrayonEdge helps you walk that balance with confidence.
+              </p>
+
+              <p>
+                This is a place where you feel supported in your parenting, where guidance is rooted in child development and psychology, but shaped by real family life, and where the focus stays on what helps children grow into emotionally secure and capable people. Parenting moves quickly, children change fast, and we learn new things every single day. CrayonEdge is here to walk with you through it, helping you feel steady as you guide your child with purpose.
               </p>
             </div>
 
@@ -51,7 +47,7 @@ const About = () => {
               <ul className="space-y-4 text-lg">
                 <li className="flex gap-3">
                   <span className="text-primary">→</span>
-                  <span><strong>Evidence-based insights</strong> grounded in child development research</span>
+                  <span><strong>Evidence-based guidance</strong> grounded in child development and psychology research</span>
                 </li>
                 <li className="flex gap-3">
                   <span className="text-primary">→</span>
@@ -63,11 +59,11 @@ const About = () => {
                 </li>
                 <li className="flex gap-3">
                   <span className="text-primary">→</span>
-                  <span><strong>Gentle approaches</strong> to discipline and boundaries</span>
+                  <span><strong>Positive discipline</strong> that supports emotional growth</span>
                 </li>
                 <li className="flex gap-3">
                   <span className="text-primary">→</span>
-                  <span><strong>Support and encouragement</strong> for the journey</span>
+                  <span><strong>Support and encouragement</strong> for your parenting journey</span>
                 </li>
               </ul>
             </div>
@@ -75,21 +71,13 @@ const About = () => {
             <div className="bg-secondary-light rounded-2xl p-8 md:p-12">
               <h2 className="text-3xl font-bold mb-6">My Parenting Philosophy</h2>
               <p className="text-lg leading-relaxed">
-                I believe in gentle parenting that respects children as whole people, while also 
-                acknowledging that parents are human too. I believe in connection over perfection. 
-                I believe that understanding child development changes everything. And I believe 
-                that the most important thing we can give our children is our presence — not our 
-                perfection.
+                I believe every child is a remarkable individual, growing and learning at their own pace, and this belief is what roots me in parenting with intention. My goal is to make everyday choices that support children's emotional well-being and growth while focusing on presence rather than perfection. Parenting with intention is all about paying attention to what children need, guiding behavior with respect, and setting clear expectations that help them feel safe. When children feel understood and supported, they grow with confidence, empathy, and a strong sense of who they are.
               </p>
             </div>
 
             <div className="text-center pt-8">
               <p className="text-xl">
-                Thank you for being here. Whether you're a first-time parent or raising your fifth, 
-                whether you found this blog through Google or a friend, I'm so glad you're here.
-              </p>
-              <p className="text-xl mt-4 text-primary font-bold">
-                Let's navigate this beautiful chaos together.
+                Thank you for being here. Whether you're just starting or deep in the parenting journey, I'm grateful you found your way to CrayonEdge!
               </p>
             </div>
           </div>

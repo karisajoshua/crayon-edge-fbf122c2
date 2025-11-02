@@ -19,6 +19,7 @@ import PostEditor from "@/pages/admin/PostEditor";
 import MediaManager from "@/pages/admin/MediaManager";
 import Categories from "@/pages/admin/Categories";
 import UserManagement from "@/pages/admin/UserManagement";
+import ArchivedPosts from "@/pages/admin/ArchivedPosts";
 
 const queryClient = new QueryClient();
 
@@ -45,6 +46,7 @@ const App = () => (
               <Route path="posts/edit/:id" element={<PostEditor />} />
               <Route path="media" element={<MediaManager />} />
               <Route path="categories" element={<Categories />} />
+              <Route path="archive" element={<ArchivedPosts />} />
               <Route path="users" element={<UserManagement />} />
             </Route>
             

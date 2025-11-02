@@ -2,11 +2,14 @@ import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import Image from "@tiptap/extension-image";
 import Link from "@tiptap/extension-link";
+import TextAlign from "@tiptap/extension-text-align";
 import { Button } from "@/components/ui/button";
 import { 
   Bold, Italic, List, ListOrdered, Heading2, Heading3, 
-  Link as LinkIcon, Image as ImageIcon, Quote 
+  Link as LinkIcon, Image as ImageIcon, Quote, 
+  AlignLeft, AlignCenter, AlignRight, AlignJustify, Unlink 
 } from "lucide-react";
+import { useEffect } from "react";
 
 interface RichTextEditorProps {
   content: string;
@@ -21,12 +24,21 @@ const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
       Link.configure({
         openOnClick: false,
       }),
+      TextAlign.configure({
+        types: ['heading', 'paragraph'],
+      }),
     ],
     content,
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML());
     },
   });
+
+  useEffect(() => {
+    if (editor && content !== editor.getHTML()) {
+      editor.commands.setContent(content);
+    }
+  }, [content, editor]);
 
   if (!editor) {
     return null;
@@ -40,10 +52,23 @@ const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
   };
 
   const addLink = () => {
-    const url = window.prompt("Enter URL:");
-    if (url) {
-      editor.chain().focus().setLink({ href: url }).run();
+    const previousUrl = editor.getAttributes('link').href;
+    const url = window.prompt('Enter URL:', previousUrl);
+    
+    if (url === null) {
+      return;
     }
+
+    if (url === '') {
+      editor.chain().focus().extendMarkRange('link').unsetLink().run();
+      return;
+    }
+
+    editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
+  };
+
+  const removeLink = () => {
+    editor.chain().focus().unsetLink().run();
   };
 
   return (
@@ -53,7 +78,10 @@ const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
           type="button"
           variant="ghost"
           size="sm"
-          onClick={() => editor.chain().focus().toggleBold().run()}
+          onMouseDown={(e) => {
+            e.preventDefault();
+            editor.chain().focus().toggleBold().run();
+          }}
           className={editor.isActive("bold") ? "bg-accent" : ""}
         >
           <Bold className="w-4 h-4" />
@@ -117,8 +145,18 @@ const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
           variant="ghost"
           size="sm"
           onClick={addLink}
+          className={editor.isActive("link") ? "bg-accent" : ""}
         >
           <LinkIcon className="w-4 h-4" />
+        </Button>
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          onClick={removeLink}
+          disabled={!editor.isActive("link")}
+        >
+          <Unlink className="w-4 h-4" />
         </Button>
         <Button
           type="button"
@@ -127,6 +165,42 @@ const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
           onClick={addImage}
         >
           <ImageIcon className="w-4 h-4" />
+        </Button>
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          onClick={() => editor.chain().focus().setTextAlign('left').run()}
+          className={editor.isActive({ textAlign: 'left' }) ? "bg-accent" : ""}
+        >
+          <AlignLeft className="w-4 h-4" />
+        </Button>
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          onClick={() => editor.chain().focus().setTextAlign('center').run()}
+          className={editor.isActive({ textAlign: 'center' }) ? "bg-accent" : ""}
+        >
+          <AlignCenter className="w-4 h-4" />
+        </Button>
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          onClick={() => editor.chain().focus().setTextAlign('right').run()}
+          className={editor.isActive({ textAlign: 'right' }) ? "bg-accent" : ""}
+        >
+          <AlignRight className="w-4 h-4" />
+        </Button>
+        <Button
+          type="button"
+          variant="ghost"
+          size="sm"
+          onClick={() => editor.chain().focus().setTextAlign('justify').run()}
+          className={editor.isActive({ textAlign: 'justify' }) ? "bg-accent" : ""}
+        >
+          <AlignJustify className="w-4 h-4" />
         </Button>
       </div>
       <EditorContent 

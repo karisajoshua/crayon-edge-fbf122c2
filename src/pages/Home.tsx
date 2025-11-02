@@ -82,36 +82,34 @@ const Home = () => {
       
       <main className="flex-1">
         {/* Hero Section */}
-        <section className="bg-primary py-20 md:py-32">
-          <div className="container mx-auto px-4">
+        <section 
+          className="relative py-20 md:py-32 bg-cover bg-center"
+          style={{
+            backgroundImage: "url('https://qjivusdkfvjrzaqyxxmy.supabase.co/storage/v1/object/public/blog-images/0.019568322083228007.jpeg')"
+          }}
+        >
+          <div className="absolute inset-0 bg-black/40"></div>
+          <div className="container mx-auto px-4 relative z-10">
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div className="space-y-6">
-                <h1 className="text-5xl md:text-6xl font-bold leading-tight">
+                <h1 className="text-5xl md:text-6xl font-bold leading-tight text-white">
                   Where Parenting Meets Understanding
                 </h1>
-                <p className="text-xl text-muted-foreground">
+                <p className="text-xl text-white/90">
                   A calm and supportive space for real-life parenting insights grounded in child development and psychology.
                 </p>
                 <div className="flex flex-wrap gap-4">
                   <Link to="/blog">
-                    <Button size="lg" className="bg-primary hover:bg-primary-dark text-foreground">
+                    <Button size="lg" className="bg-white text-primary hover:bg-white/90">
                       Explore the Blog
                     </Button>
                   </Link>
                   <Link to="/about">
-                    <Button size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10">
+                    <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
                       Learn More About Me
                     </Button>
                   </Link>
                 </div>
-              </div>
-              
-              <div className="rounded-2xl overflow-hidden shadow-2xl">
-                <img 
-                  src={heroImage} 
-                  alt="Gentle parenting moment" 
-                  className="w-full h-full object-cover"
-                />
               </div>
             </div>
           </div>

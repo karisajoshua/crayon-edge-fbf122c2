@@ -16,6 +16,8 @@ export type Database = {
     Tables: {
       blog_posts: {
         Row: {
+          archived: boolean | null
+          archived_at: string | null
           author_id: string | null
           category_id: string | null
           content: string
@@ -29,6 +31,8 @@ export type Database = {
           updated_at: string | null
         }
         Insert: {
+          archived?: boolean | null
+          archived_at?: string | null
           author_id?: string | null
           category_id?: string | null
           content: string
@@ -42,6 +46,8 @@ export type Database = {
           updated_at?: string | null
         }
         Update: {
+          archived?: boolean | null
+          archived_at?: string | null
           author_id?: string | null
           category_id?: string | null
           content?: string

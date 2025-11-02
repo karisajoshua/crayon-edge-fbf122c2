@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Edit, Trash2 } from "lucide-react";
+import { Plus, Edit, Archive } from "lucide-react";
 import { toast } from "sonner";
 import {
   AlertDialog,
@@ -19,7 +19,7 @@ import {
 const PostsList = () => {
   const [posts, setPosts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-  const [deleteId, setDeleteId] = useState<string | null>(null);
+  const [archiveId, setArchiveId] = useState<string | null>(null);
 
   useEffect(() => {
     fetchPosts();
@@ -33,6 +33,7 @@ const PostsList = () => {
         *,
         categories (name)
       `)
+      .eq("archived", false)
       .order("created_at", { ascending: false });
 
     if (error) {
@@ -43,21 +44,24 @@ const PostsList = () => {
     setLoading(false);
   };
 
-  const handleDelete = async () => {
-    if (!deleteId) return;
+  const handleArchive = async () => {
+    if (!archiveId) return;
 
     const { error } = await supabase
       .from("blog_posts")
-      .delete()
-      .eq("id", deleteId);
+      .update({ 
+        archived: true, 
+        archived_at: new Date().toISOString() 
+      })
+      .eq("id", archiveId);
 
     if (error) {
-      toast.error("Failed to delete post");
+      toast.error("Failed to archive post");
     } else {
-      toast.success("Post deleted successfully");
+      toast.success("Post archived successfully");
       fetchPosts();
     }
-    setDeleteId(null);
+    setArchiveId(null);
   };
 
   if (loading) {
@@ -118,9 +122,9 @@ const PostsList = () => {
                       <Button
                         variant="ghost"
                         size="sm"
-                        onClick={() => setDeleteId(post.id)}
+                        onClick={() => setArchiveId(post.id)}
                       >
-                        <Trash2 className="w-4 h-4" />
+                        <Archive className="w-4 h-4" />
                       </Button>
                     </div>
                   </td>
@@ -131,17 +135,17 @@ const PostsList = () => {
         </div>
       </div>
 
-      <AlertDialog open={!!deleteId} onOpenChange={() => setDeleteId(null)}>
+      <AlertDialog open={!!archiveId} onOpenChange={() => setArchiveId(null)}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+            <AlertDialogTitle>Archive this post?</AlertDialogTitle>
             <AlertDialogDescription>
-              This action cannot be undone. This will permanently delete the blog post.
+              This post will be moved to the archive. You can restore it later from the Archive section.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={handleDelete}>Delete</AlertDialogAction>
+            <AlertDialogAction onClick={handleArchive}>Archive</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

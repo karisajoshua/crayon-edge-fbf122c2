@@ -1,7 +1,8 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
-import { LayoutDashboard, FileText, Image, FolderOpen, LogOut, Users } from "lucide-react";
+import { LayoutDashboard, FileText, Image, FolderOpen, LogOut, Users, Archive } from "lucide-react";
+import logo from "@/assets/crayonedge_logo.webp";
 
 const AdminLayout = () => {
   const { signOut } = useAuth();
@@ -18,8 +19,12 @@ const AdminLayout = () => {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-8">
-              <Link to="/" className="text-xl font-bold">
-                CrayonEdge Admin
+              <Link to="/" className="flex items-center">
+                <img 
+                  src={logo} 
+                  alt="CrayonEdge Admin Dashboard" 
+                  className="h-10 w-auto"
+                />
               </Link>
               <div className="hidden md:flex gap-4">
                 <Link to="/admin">
@@ -44,6 +49,12 @@ const AdminLayout = () => {
                   <Button variant="ghost" size="sm">
                     <FolderOpen className="w-4 h-4 mr-2" />
                     Categories
+                  </Button>
+                </Link>
+                <Link to="/admin/archive">
+                  <Button variant="ghost" size="sm">
+                    <Archive className="w-4 h-4 mr-2" />
+                    Archive
                   </Button>
                 </Link>
                 <Link to="/admin/users">

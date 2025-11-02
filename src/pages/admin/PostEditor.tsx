@@ -194,6 +194,7 @@ const PostEditor = () => {
         <div className="space-y-2">
           <Label>Content *</Label>
           <RichTextEditor
+            key={id || 'new'}
             content={formData.content}
             onChange={(content) => setFormData({ ...formData, content })}
           />

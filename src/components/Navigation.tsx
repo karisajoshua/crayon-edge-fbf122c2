@@ -36,7 +36,7 @@ const Navigation = () => {
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
+    <nav className="sticky top-0 z-50 bg-transparent backdrop-blur-md">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
@@ -50,10 +50,10 @@ const Navigation = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link to="/" className="heading-font font-medium hover:text-primary transition-smooth">
+            <Link to="/" className="heading-font font-medium text-white hover:text-white/80 transition-smooth">
               Home
             </Link>
-            <Link to="/about" className="heading-font font-medium hover:text-primary transition-smooth">
+            <Link to="/about" className="heading-font font-medium text-white hover:text-white/80 transition-smooth">
               About
             </Link>
             
@@ -63,7 +63,7 @@ const Navigation = () => {
               onMouseEnter={() => setIsBlogOpen(true)}
               onMouseLeave={() => setIsBlogOpen(false)}
             >
-              <button className="heading-font font-medium hover:text-primary transition-smooth flex items-center gap-1">
+              <button className="heading-font font-medium text-white hover:text-white/80 transition-smooth flex items-center gap-1">
                 Blog
                 <ChevronDown className="w-4 h-4" />
               </button>
@@ -109,24 +109,24 @@ const Navigation = () => {
               )}
             </div>
 
-            <Link to="/contact" className="heading-font font-medium hover:text-primary transition-smooth">
+            <Link to="/contact" className="heading-font font-medium text-white hover:text-white/80 transition-smooth">
               Contact
             </Link>
             
             {isAdmin && (
-              <Link to="/admin" className="heading-font font-medium hover:text-primary transition-smooth">
+              <Link to="/admin" className="heading-font font-medium text-white hover:text-white/80 transition-smooth">
                 Admin
               </Link>
             )}
             
             {user ? (
-              <Button variant="ghost" size="sm" onClick={() => signOut()}>
+              <Button variant="ghost" size="sm" onClick={() => signOut()} className="text-white hover:text-white/80 hover:bg-white/10">
                 <LogOut className="w-4 h-4 mr-2" />
                 Sign Out
               </Button>
             ) : (
               <Link to="/auth">
-                <Button variant="outline" size="sm">
+                <Button variant="outline" size="sm" className="text-white border-white hover:bg-white/10">
                   Sign In
                 </Button>
               </Link>
@@ -135,7 +135,7 @@ const Navigation = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden"
+            className="md:hidden text-white"
             onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}

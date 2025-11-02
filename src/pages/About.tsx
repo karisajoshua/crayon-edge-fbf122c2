@@ -9,11 +9,20 @@ const About = () => {
       
       <main className="flex-1">
         <article className="container mx-auto px-4 py-16 max-w-4xl">
-          <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">Hi, I'm Flois!</h1>
-            <p className="text-xl text-muted-foreground">
-              A parent's journey through intentional parenting and child development
-            </p>
+          <div className="flex flex-col md:flex-row items-center gap-8 mb-12">
+            <div className="md:w-1/3">
+              <img 
+                src="https://qjivusdkfvjrzaqyxxmy.supabase.co/storage/v1/object/public/blog-images/0.7296860073967326.jpg" 
+                alt="Flois" 
+                className="rounded-2xl shadow-lg w-full"
+              />
+            </div>
+            <div className="md:w-2/3 text-center md:text-left">
+              <h1 className="text-4xl md:text-5xl font-bold mb-6">Hi, I'm Flois!</h1>
+              <p className="text-xl text-muted-foreground">
+                A parent's journey through intentional parenting and child development
+              </p>
+            </div>
           </div>
 
           <div className="prose prose-lg max-w-none space-y-8">

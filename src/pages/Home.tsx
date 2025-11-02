@@ -82,33 +82,35 @@ const Home = () => {
       
       <main className="flex-1">
         {/* Hero Section */}
-        <section 
-          className="relative py-20 md:py-32 bg-cover bg-center"
-          style={{
-            backgroundImage: "url('https://qjivusdkfvjrzaqyxxmy.supabase.co/storage/v1/object/public/blog-images/0.019568322083228007.jpeg')"
-          }}
-        >
-          <div className="absolute inset-0 bg-black/40"></div>
-          <div className="container mx-auto px-4 relative z-10">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div className="space-y-6">
-                <h1 className="text-5xl md:text-6xl font-bold leading-tight text-white">
-                  Where Parenting Meets Understanding
-                </h1>
-                <p className="text-xl text-white/90">
-                  A calm and supportive space for real-life parenting insights grounded in child development and psychology.
-                </p>
-                <div className="flex flex-wrap gap-4">
-                  <Link to="/blog">
-                    <Button size="lg" className="bg-white text-primary hover:bg-white/90">
-                      Explore the Blog
-                    </Button>
-                  </Link>
-                  <Link to="/about">
-                    <Button size="lg" variant="outline" className="border-white text-white hover:bg-white/10">
-                      Learn More About Me
-                    </Button>
-                  </Link>
+        <section className="relative -mt-20">
+          <div 
+            className="w-full min-h-screen bg-cover bg-center flex items-center"
+            style={{
+              backgroundImage: "url('https://qjivusdkfvjrzaqyxxmy.supabase.co/storage/v1/object/public/blog-images/0.019568322083228007.jpeg')"
+            }}
+          >
+            <div className="absolute inset-0 bg-blue-500/30"></div>
+            <div className="container mx-auto px-4 relative z-10 pt-20">
+              <div className="grid md:grid-cols-2 gap-12 items-center">
+                <div className="space-y-6">
+                  <h1 className="text-5xl md:text-6xl font-bold leading-tight text-white drop-shadow-lg">
+                    Where Parenting Meets Understanding
+                  </h1>
+                  <p className="text-xl text-white drop-shadow-md">
+                    A calm and supportive space for real-life parenting insights grounded in child development and psychology.
+                  </p>
+                  <div className="flex flex-wrap gap-4">
+                    <Link to="/blog">
+                      <Button size="lg" className="bg-footer text-white hover:bg-footer/90 shadow-lg">
+                        Explore the Blog
+                      </Button>
+                    </Link>
+                    <Link to="/about">
+                      <Button size="lg" className="bg-white text-foreground hover:bg-white/90 shadow-lg">
+                        Learn More About Me
+                      </Button>
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>

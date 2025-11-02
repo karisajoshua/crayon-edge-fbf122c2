@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Menu, X, ChevronDown, LogOut } from "lucide-react";
 import { Button } from "./ui/button";
 import { useAuth } from "@/contexts/AuthContext";
@@ -19,6 +19,8 @@ const Navigation = () => {
   const [isBlogOpen, setIsBlogOpen] = useState(false);
   const [categories, setCategories] = useState<Category[]>([]);
   const { user, isAdmin, signOut } = useAuth();
+  const location = useLocation();
+  const isHomePage = location.pathname === "/";
 
   useEffect(() => {
     fetchCategories();
@@ -36,7 +38,7 @@ const Navigation = () => {
   };
 
   return (
-    <nav className="sticky top-0 z-50 bg-transparent backdrop-blur-md">
+    <nav className={`sticky top-0 z-50 ${isHomePage ? "bg-transparent" : "bg-background/95 border-b border-border"} backdrop-blur-md`}>
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
@@ -50,10 +52,10 @@ const Navigation = () => {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link to="/" className="heading-font font-medium text-white hover:text-white/80 transition-smooth drop-shadow-md">
+            <Link to="/" className={`heading-font font-medium transition-smooth ${isHomePage ? "text-white hover:text-white/80 drop-shadow-md" : "hover:text-primary"}`}>
               Home
             </Link>
-            <Link to="/about" className="heading-font font-medium text-white hover:text-white/80 transition-smooth drop-shadow-md">
+            <Link to="/about" className={`heading-font font-medium transition-smooth ${isHomePage ? "text-white hover:text-white/80 drop-shadow-md" : "hover:text-primary"}`}>
               About
             </Link>
             
@@ -63,7 +65,7 @@ const Navigation = () => {
               onMouseEnter={() => setIsBlogOpen(true)}
               onMouseLeave={() => setIsBlogOpen(false)}
             >
-              <button className="heading-font font-medium text-white hover:text-white/80 transition-smooth flex items-center gap-1 drop-shadow-md">
+              <button className={`heading-font font-medium transition-smooth flex items-center gap-1 ${isHomePage ? "text-white hover:text-white/80 drop-shadow-md" : "hover:text-primary"}`}>
                 Blog
                 <ChevronDown className="w-4 h-4" />
               </button>
@@ -109,24 +111,33 @@ const Navigation = () => {
               )}
             </div>
 
-            <Link to="/contact" className="heading-font font-medium text-white hover:text-white/80 transition-smooth drop-shadow-md">
+            <Link to="/contact" className={`heading-font font-medium transition-smooth ${isHomePage ? "text-white hover:text-white/80 drop-shadow-md" : "hover:text-primary"}`}>
               Contact
             </Link>
             
             {isAdmin && (
-              <Link to="/admin" className="heading-font font-medium text-white hover:text-white/80 transition-smooth drop-shadow-md">
+              <Link to="/admin" className={`heading-font font-medium transition-smooth ${isHomePage ? "text-white hover:text-white/80 drop-shadow-md" : "hover:text-primary"}`}>
                 Admin
               </Link>
             )}
             
             {user ? (
-              <Button variant="ghost" size="sm" onClick={() => signOut()} className="text-white hover:text-white hover:bg-white/20 drop-shadow-md">
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => signOut()} 
+                className={isHomePage ? "text-white hover:text-white hover:bg-white/20 drop-shadow-md" : ""}
+              >
                 <LogOut className="w-4 h-4 mr-2" />
                 Sign Out
               </Button>
             ) : (
               <Link to="/auth">
-                <Button variant="outline" size="sm" className="border-white text-white hover:bg-white/20 drop-shadow-md">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className={isHomePage ? "border-white text-white hover:bg-white/20 drop-shadow-md" : ""}
+                >
                   Sign In
                 </Button>
               </Link>
@@ -135,7 +146,7 @@ const Navigation = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-white drop-shadow-lg"
+            className={`md:hidden ${isHomePage ? "text-white drop-shadow-lg" : ""}`}
             onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}

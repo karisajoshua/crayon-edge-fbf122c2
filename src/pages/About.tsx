@@ -10,15 +10,15 @@ const About = () => {
       <main className="flex-1">
         <article className="container mx-auto px-4 py-16 max-w-4xl">
           <div className="flex flex-col md:flex-row items-center gap-8 mb-12">
-            <div className="md:w-1/3">
+            <div className="w-48 h-48 md:w-56 md:h-56 flex-shrink-0">
               <img 
-                src="https://qjivusdkfvjrzaqyxxmy.supabase.co/storage/v1/object/public/blog-images/0.7296860073967326.jpg" 
-                alt="Flois" 
-                className="rounded-2xl shadow-lg w-full"
+                src="https://qjivusdkfvjrzaqyxxmy.supabase.co/storage/v1/object/public/blog-images/0.7296860073967326.jpg"
+                alt="Flois - CrayonEdge Author"
+                className="w-full h-full object-cover rounded-full shadow-lg"
               />
             </div>
-            <div className="md:w-2/3 text-center md:text-left">
-              <h1 className="text-4xl md:text-5xl font-bold mb-6">Hi, I'm Flois!</h1>
+            <div className="text-center md:text-left">
+              <h1 className="text-4xl md:text-5xl font-bold mb-4">Hi, I'm Flois!</h1>
               <p className="text-xl text-muted-foreground">
                 A parent's journey through intentional parenting and child development
               </p>

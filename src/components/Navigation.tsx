@@ -44,16 +44,16 @@ const Navigation = () => {
             <img 
               src={logo} 
               alt="CrayonEdge Logo" 
-              className="h-10 md:h-12"
+              className="h-10 md:h-12 drop-shadow-lg"
             />
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link to="/" className="heading-font font-medium text-white hover:text-white/80 transition-smooth">
+            <Link to="/" className="heading-font font-medium text-white hover:text-white/80 transition-smooth drop-shadow-md">
               Home
             </Link>
-            <Link to="/about" className="heading-font font-medium text-white hover:text-white/80 transition-smooth">
+            <Link to="/about" className="heading-font font-medium text-white hover:text-white/80 transition-smooth drop-shadow-md">
               About
             </Link>
             
@@ -63,7 +63,7 @@ const Navigation = () => {
               onMouseEnter={() => setIsBlogOpen(true)}
               onMouseLeave={() => setIsBlogOpen(false)}
             >
-              <button className="heading-font font-medium text-white hover:text-white/80 transition-smooth flex items-center gap-1">
+              <button className="heading-font font-medium text-white hover:text-white/80 transition-smooth flex items-center gap-1 drop-shadow-md">
                 Blog
                 <ChevronDown className="w-4 h-4" />
               </button>
@@ -109,24 +109,24 @@ const Navigation = () => {
               )}
             </div>
 
-            <Link to="/contact" className="heading-font font-medium text-white hover:text-white/80 transition-smooth">
+            <Link to="/contact" className="heading-font font-medium text-white hover:text-white/80 transition-smooth drop-shadow-md">
               Contact
             </Link>
             
             {isAdmin && (
-              <Link to="/admin" className="heading-font font-medium text-white hover:text-white/80 transition-smooth">
+              <Link to="/admin" className="heading-font font-medium text-white hover:text-white/80 transition-smooth drop-shadow-md">
                 Admin
               </Link>
             )}
             
             {user ? (
-              <Button variant="ghost" size="sm" onClick={() => signOut()} className="text-white hover:text-white/80 hover:bg-white/10">
+              <Button variant="ghost" size="sm" onClick={() => signOut()} className="text-white hover:text-white hover:bg-white/20 drop-shadow-md">
                 <LogOut className="w-4 h-4 mr-2" />
                 Sign Out
               </Button>
             ) : (
               <Link to="/auth">
-                <Button variant="outline" size="sm" className="text-white border-white hover:bg-white/10">
+                <Button variant="outline" size="sm" className="border-white text-white hover:bg-white/20 drop-shadow-md">
                   Sign In
                 </Button>
               </Link>
@@ -135,7 +135,7 @@ const Navigation = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="md:hidden text-white"
+            className="md:hidden text-white drop-shadow-lg"
             onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -144,7 +144,7 @@ const Navigation = () => {
 
         {/* Mobile Menu */}
         {isOpen && (
-          <div className="md:hidden py-4 border-t border-border">
+          <div className="md:hidden py-4 bg-background/95 backdrop-blur-sm border-t border-border">
             <div className="flex flex-col space-y-4">
               <Link to="/" className="heading-font font-medium hover:text-primary transition-smooth">
                 Home

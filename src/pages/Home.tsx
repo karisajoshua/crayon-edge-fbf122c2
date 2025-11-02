@@ -83,7 +83,7 @@ const Home = () => {
       <main className="flex-1">
         {/* Hero Section - Full Width */}
         <section 
-          className="relative -mt-20 w-full bg-cover bg-center"
+          className="relative -mt-20 w-full bg-cover bg-center min-h-[80vh]"
           style={{
             backgroundImage: "url('https://qjivusdkfvjrzaqyxxmy.supabase.co/storage/v1/object/public/blog-images/0.019568322083228007.jpeg')"
           }}

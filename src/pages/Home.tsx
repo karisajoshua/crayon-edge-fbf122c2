@@ -135,7 +135,7 @@ const Home = () => {
         </section>
 
         {/* Categories Grid - Search by Topic */}
-        <section id="categories" className="relative bg-[#99d1e6]">className="relative">
+        <section id="categories" className="relative bg-[#99d1e6]">
           <WaveDivider position="top" color="#99d1e6" />
           <div className="bg-accent py-16">
             <div className="container mx-auto px-4">

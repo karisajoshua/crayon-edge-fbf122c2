@@ -86,6 +86,9 @@ const PostEditor = () => {
       const postData = {
         ...formData,
         author_id: user?.id,
+        category_id: formData.category_id || null,
+        featured_image: formData.featured_image || null,
+        excerpt: formData.excerpt || null,
       };
 
       if (id) {

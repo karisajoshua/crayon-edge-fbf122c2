@@ -136,7 +136,7 @@ const Home = () => {
 
         {/* Categories Grid - Search by Topic */}
         <section className="relative">
-          <WaveDivider position="top" color="#fee5d2" />
+          <WaveDivider position="top" color="#99d1e6" />
           <div className="bg-accent py-16">
             <div className="container mx-auto px-4">
               <div className="text-center mb-12">
@@ -160,7 +160,7 @@ const Home = () => {
               </div>
             </div>
           </div>
-          <WaveDivider position="bottom" color="#fee5d2" />
+          <WaveDivider position="bottom" color="#99d1e6" />
         </section>
 
         {/* Latest Posts */}

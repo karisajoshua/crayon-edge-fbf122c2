@@ -38,7 +38,7 @@ const Navigation = () => {
   };
 
   return (
-    <nav className={`sticky top-0 z-50 ${isHomePage ? "bg-transparent" : "bg-background/95 border-b border-border"} backdrop-blur-md`}>
+    <nav className="sticky top-0 z-50 bg-white shadow-md border-b border-border transition-smooth">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
@@ -46,16 +46,16 @@ const Navigation = () => {
             <img 
               src={logo} 
               alt="CrayonEdge Logo" 
-              className="h-10 md:h-12 drop-shadow-lg"
+              className="h-10 md:h-12"
             />
           </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
-            <Link to="/" className={`heading-font font-medium transition-smooth ${isHomePage ? "text-white hover:text-white/80 drop-shadow-md" : "hover:text-primary"}`}>
+            <Link to="/" className="heading-font font-medium transition-smooth text-[#5da3c0] hover:text-[#4a8da7]">
               Home
             </Link>
-            <Link to="/about" className={`heading-font font-medium transition-smooth ${isHomePage ? "text-white hover:text-white/80 drop-shadow-md" : "hover:text-primary"}`}>
+            <Link to="/about" className="heading-font font-medium transition-smooth text-[#5da3c0] hover:text-[#4a8da7]">
               About
             </Link>
             
@@ -65,7 +65,7 @@ const Navigation = () => {
               onMouseEnter={() => setIsBlogOpen(true)}
               onMouseLeave={() => setIsBlogOpen(false)}
             >
-              <button className={`heading-font font-medium transition-smooth flex items-center gap-1 ${isHomePage ? "text-white hover:text-white/80 drop-shadow-md" : "hover:text-primary"}`}>
+              <button className="heading-font font-medium transition-smooth flex items-center gap-1 text-[#5da3c0] hover:text-[#4a8da7]">
                 Blog
                 <ChevronDown className="w-4 h-4" />
               </button>
@@ -111,12 +111,12 @@ const Navigation = () => {
               )}
             </div>
 
-            <Link to="/contact" className={`heading-font font-medium transition-smooth ${isHomePage ? "text-white hover:text-white/80 drop-shadow-md" : "hover:text-primary"}`}>
+            <Link to="/contact" className="heading-font font-medium transition-smooth text-[#5da3c0] hover:text-[#4a8da7]">
               Contact
             </Link>
             
             {isAdmin && (
-              <Link to="/admin" className={`heading-font font-medium transition-smooth ${isHomePage ? "text-white hover:text-white/80 drop-shadow-md" : "hover:text-primary"}`}>
+              <Link to="/admin" className="heading-font font-medium transition-smooth text-[#5da3c0] hover:text-[#4a8da7]">
                 Admin
               </Link>
             )}
@@ -126,7 +126,7 @@ const Navigation = () => {
                 variant="ghost" 
                 size="sm" 
                 onClick={() => signOut()} 
-                className={isHomePage ? "text-white hover:text-white hover:bg-white/20 drop-shadow-md" : ""}
+                className="text-[#5da3c0] hover:text-[#4a8da7]"
               >
                 <LogOut className="w-4 h-4 mr-2" />
                 Sign Out
@@ -136,7 +136,7 @@ const Navigation = () => {
                 <Button 
                   variant="outline" 
                   size="sm" 
-                  className={isHomePage ? "border-white text-white hover:bg-white/20 drop-shadow-md" : ""}
+                  className="rounded-xl"
                 >
                   Sign In
                 </Button>
@@ -146,7 +146,7 @@ const Navigation = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className={`md:hidden ${isHomePage ? "text-white drop-shadow-lg" : ""}`}
+            className="md:hidden text-[#5da3c0]"
             onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}

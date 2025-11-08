@@ -89,3 +89,33 @@ All colors MUST be HSL.
     transition: var(--transition-smooth);
   }
 }
+
+/* Blog content spacing */
+.blog-content p + p {
+  margin-top: 1.5rem;
+}
+
+.blog-content br {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.blog-content h2,
+.blog-content h3,
+.blog-content h4 {
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+.blog-content ul,
+.blog-content ol {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* Gradient border helper */
+.border-gradient {
+  border: 8px solid;
+  border-image-slice: 1;
+  border-image-source: linear-gradient(135deg, hsl(25, 97%, 91%), hsl(333, 60%, 94%));
+}

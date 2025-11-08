@@ -12,7 +12,7 @@ interface BlogCardProps {
 
 const BlogCard = ({ id, title, excerpt, image, date, category }: BlogCardProps) => {
   return (
-    <article className="group bg-card rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-smooth border border-border">
+    <article className="group bg-card rounded-3xl overflow-hidden shadow-md hover:shadow-xl transition-smooth border-4 border-[#fee5d2] hover:border-[#fbe4ec] hover:scale-[1.02]">
       <Link to={`/blog/${id}`}>
         <div className="aspect-[16/9] overflow-hidden">
           <img 
@@ -23,9 +23,9 @@ const BlogCard = ({ id, title, excerpt, image, date, category }: BlogCardProps) 
         </div>
       </Link>
       
-      <div className="p-6">
+      <div className="p-8">
         <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
-          <span className="inline-block px-3 py-1 bg-secondary-light rounded-full text-secondary-foreground text-xs font-medium">
+          <span className="inline-block px-4 py-2 bg-gradient-to-r from-[#fbe4ec] to-[#fee5d2] rounded-full text-secondary-foreground text-xs font-medium shadow-sm">
             {category}
           </span>
           <div className="flex items-center gap-1">

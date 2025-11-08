@@ -103,6 +103,44 @@ export type Database = {
         }
         Relationships: []
       }
+      comments: {
+        Row: {
+          approved: boolean
+          author_email: string
+          author_name: string
+          comment_text: string
+          created_at: string
+          id: string
+          post_id: string
+        }
+        Insert: {
+          approved?: boolean
+          author_email: string
+          author_name: string
+          comment_text: string
+          created_at?: string
+          id?: string
+          post_id: string
+        }
+        Update: {
+          approved?: boolean
+          author_email?: string
+          author_name?: string
+          comment_text?: string
+          created_at?: string
+          id?: string
+          post_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "comments_post_id_fkey"
+            columns: ["post_id"]
+            isOneToOne: false
+            referencedRelation: "blog_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       media: {
         Row: {
           alt_text: string | null

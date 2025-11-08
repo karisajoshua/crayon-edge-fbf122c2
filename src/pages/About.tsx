@@ -8,20 +8,27 @@ const About = () => {
       <Navigation />
       
       <main className="flex-1">
-        <article className="container mx-auto px-4 py-16 max-w-4xl">
-          <div className="flex flex-col md:flex-row items-center gap-8 mb-12">
-            <div className="w-48 h-48 md:w-56 md:h-56 flex-shrink-0">
-              <img 
-                src="https://qjivusdkfvjrzaqyxxmy.supabase.co/storage/v1/object/public/blog-images/0.7296860073967326.jpg"
-                alt="Flois - CrayonEdge Author"
-                className="w-full h-full object-cover rounded-full shadow-lg"
-              />
-            </div>
-            <div className="text-center md:text-left">
-              <h1 className="text-4xl md:text-5xl font-bold mb-4">Hi, I'm Flois!</h1>
-              <p className="text-xl text-muted-foreground">
-                A parent's journey through intentional parenting and child development
-              </p>
+        <article className="container mx-auto px-4 py-16 max-w-5xl">
+          {/* Header with Large Photo */}
+          <div className="mb-12">
+            <h1 className="text-4xl md:text-5xl font-bold mb-8 text-center text-[#5da3c0]">Hi, I'm Flois!</h1>
+            
+            <div className="grid md:grid-cols-[400px_1fr] gap-8 items-start">
+              <div className="flex-shrink-0 mx-auto md:mx-0">
+                <img 
+                  src="https://qjivusdkfvjrzaqyxxmy.supabase.co/storage/v1/object/public/blog-images/0.7296860073967326.jpg"
+                  alt="Flois - CrayonEdge Author"
+                  className="w-full max-w-[400px] aspect-square object-cover rounded-3xl shadow-2xl border-8 border-gradient"
+                  style={{
+                    borderImage: 'linear-gradient(135deg, hsl(25, 97%, 91%), hsl(333, 60%, 94%)) 1'
+                  }}
+                />
+              </div>
+              <div className="flex flex-col justify-center">
+                <p className="text-xl text-muted-foreground leading-relaxed">
+                  A parent's journey through intentional parenting and child development
+                </p>
+              </div>
             </div>
           </div>
 
@@ -37,13 +44,27 @@ const About = () => {
             </div>
 
             <div className="space-y-6">
-              <h2 className="text-3xl font-bold">Why CrayonEdge?</h2>
-              <p>
-                This blog began with real moments in parenting, the ones filled with joy and the doubts that sneak in when you wonder if you are doing enough. Parenting today comes with so much comparison and the endless pressure to look perfect, but this space is the opposite of that. Here, we celebrate the small wins, acknowledge the hard days, and keep growing together.
-              </p>
+              <h2 className="text-3xl font-bold text-[#5da3c0]">Why CrayonEdge?</h2>
+              
+              <div className="bg-accent rounded-2xl p-6 border-l-4 border-[#5da3c0]">
+                <p className="text-lg italic">
+                  "This blog began with real moments in parenting—the ones filled with joy and the doubts that sneak in when you wonder if you are doing enough."
+                </p>
+              </div>
               
               <p>
-                Choosing to parent with intention changed how I showed up for my children, and CrayonEdge grew from that shift. Children need room to explore and express themselves (just like crayons creating freely), but they also need clear boundaries and structures that help them feel safe and supported (the edge that gives them direction). That balance between freedom and boundaries is where real parenting happens, and CrayonEdge helps you walk that balance with confidence.
+                Parenting today comes with so much comparison and the endless pressure to look perfect, but this space is the opposite of that. Here, we celebrate the small wins, acknowledge the hard days, and keep growing together.
+              </p>
+              
+              <div className="bg-secondary-light rounded-2xl p-6 border-l-4 border-[#fbe4ec]">
+                <p className="text-lg">
+                  <Heart className="w-6 h-6 inline text-primary mr-2" />
+                  <strong>Children need room to explore</strong> (just like crayons creating freely), but they also need <strong>clear boundaries</strong> that help them feel safe and supported (the edge that gives them direction).
+                </p>
+              </div>
+
+              <p>
+                Choosing to parent with intention changed how I showed up for my children, and CrayonEdge grew from that shift. That balance between freedom and boundaries is where real parenting happens, and CrayonEdge helps you walk that balance with confidence.
               </p>
 
               <p>

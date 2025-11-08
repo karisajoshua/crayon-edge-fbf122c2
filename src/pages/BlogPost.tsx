@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
+import CommentSection from "@/components/CommentSection";
 import { Badge } from "@/components/ui/badge";
 import { Calendar } from "lucide-react";
 
@@ -127,14 +128,17 @@ const BlogPost = () => {
               <img
                 src={post.featured_image}
                 alt={post.title}
-                className="w-full rounded-2xl mb-8 shadow-lg"
+                className="w-full md:w-3/4 lg:w-2/3 mx-auto rounded-3xl mb-8 shadow-lg"
               />
             )}
 
             <div 
-              className="prose prose-lg max-w-none"
+              className="prose prose-lg max-w-none blog-content [&_p]:mb-6 [&_p]:leading-relaxed"
               dangerouslySetInnerHTML={{ __html: post.content }}
             />
+
+            {/* Comment Section */}
+            <CommentSection postId={post.id} />
 
             {relatedPosts.length > 0 && (
               <div className="mt-16 pt-16 border-t">
@@ -150,7 +154,7 @@ const BlogPost = () => {
                         <img
                           src={related.featured_image}
                           alt={related.title}
-                          className="w-full h-48 object-cover rounded-lg mb-3 group-hover:opacity-90 transition"
+                          className="w-full h-48 object-cover rounded-2xl mb-3 group-hover:opacity-90 transition border-2 border-border"
                         />
                       )}
                       <h3 className="font-bold group-hover:text-primary transition">

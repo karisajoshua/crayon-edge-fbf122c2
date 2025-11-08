@@ -34,6 +34,10 @@ All colors MUST be HSL.
     --accent: 25 97% 91%;
     --accent-foreground: 0 0% 20%;
 
+    /* Light Blue for Topic Section #99d1e6 */
+    --topic: 196 61% 75%;
+    --topic-foreground: 0 0% 20%;
+
     /* Light Blue for Footer #a5d8ee */
     --footer: 196 60% 75%;
     --footer-foreground: 0 0% 20%;

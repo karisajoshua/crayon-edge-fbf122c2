@@ -62,6 +62,7 @@ const Footer = () => {
         {/* Copyright */}
         <div className="border-t border-border pt-6 text-center text-sm text-muted-foreground">
           <p>&copy; {new Date().getFullYear()} CrayonEdge. All rights reserved.</p>
+          <p className="mt-2">Powered by Texcortech Systems</p>
         </div>
       </div>
     </footer>

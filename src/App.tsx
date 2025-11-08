@@ -21,6 +21,7 @@ import MediaManager from "@/pages/admin/MediaManager";
 import Categories from "@/pages/admin/Categories";
 import UserManagement from "@/pages/admin/UserManagement";
 import ArchivedPosts from "@/pages/admin/ArchivedPosts";
+import CommentModeration from "@/pages/admin/CommentModeration";
 
 const queryClient = new QueryClient();
 
@@ -49,6 +50,7 @@ const App = () => (
               <Route path="media" element={<MediaManager />} />
               <Route path="categories" element={<Categories />} />
               <Route path="archive" element={<ArchivedPosts />} />
+              <Route path="comments" element={<CommentModeration />} />
               <Route path="users" element={<UserManagement />} />
             </Route>
             

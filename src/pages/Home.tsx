@@ -10,6 +10,10 @@ import TestimonialCard from "@/components/TestimonialCard";
 import WaveDivider from "@/components/WaveDivider";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-image.jpg";
+import decorative1 from "@/assets/decorative-1.png";
+import decorative2 from "@/assets/decorative-2.png";
+import decorative3 from "@/assets/decorative-3.png";
+import decorative4 from "@/assets/decorative-4.png";
 
 const Home = () => {
   const [latestPosts, setLatestPosts] = useState<any[]>([]);
@@ -71,9 +75,9 @@ const Home = () => {
   };
 
   const testimonials = [
-    { text: "This blog makes me feel seen as a parent.", author: "Sarah M." },
-    { text: "I come here when I need a moment of calm.", author: "Jessica L." },
-    { text: "Simple advice that actually works.", author: "Michael T." }
+    { text: "Every post feels like it understands what parenting is really like", author: "Sarah M." },
+    { text: "I come here when i need a fresh perspective", author: "Jessica L." },
+    { text: "Simple advice that actually works!", author: "Michael T." }
   ];
 
   return (
@@ -123,8 +127,10 @@ const Home = () => {
         </section>
 
         {/* Welcome Section with Personal Photo */}
-        <section className="py-16 bg-white">
-          <div className="container mx-auto px-4 max-w-4xl">
+        <section className="py-16 bg-white relative overflow-hidden">
+          <img src={decorative1} alt="" className="absolute top-10 left-10 w-24 h-24 opacity-20 hidden lg:block" />
+          <img src={decorative2} alt="" className="absolute bottom-10 right-10 w-32 h-32 opacity-20 hidden lg:block" />
+          <div className="container mx-auto px-4 max-w-4xl relative z-10">
             <div className="flex flex-col items-center text-center">
               {/* Personal Photo */}
               <div className="mb-8">
@@ -155,7 +161,7 @@ const Home = () => {
                   Search by Topic
                 </h2>
                 <p className="text-xl text-muted-foreground">
-                  Explore parenting wisdom by category
+                  Explore parenting insights by category
                 </p>
               </div>
               <div className="flex flex-wrap gap-3 justify-center max-w-4xl mx-auto">
@@ -175,8 +181,9 @@ const Home = () => {
         </section>
 
         {/* Latest Posts */}
-        <section className="py-16 bg-[#f5faf7]">
-          <div className="container mx-auto px-4">
+        <section className="py-16 bg-[#f5faf7] relative overflow-hidden">
+          <img src={decorative3} alt="" className="absolute top-20 right-5 w-28 h-28 opacity-15 hidden md:block" />
+          <div className="container mx-auto px-4 relative z-10">
             <div className="flex justify-between items-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-[#5da3c0]">Latest Articles</h2>
               <Link to="/blog" className="text-primary hover:text-primary-dark font-medium">
@@ -192,8 +199,9 @@ const Home = () => {
         </section>
 
         {/* Testimonials */}
-        <section className="py-16 bg-secondary-light">
-          <div className="container mx-auto px-4">
+        <section className="py-16 bg-secondary-light relative overflow-hidden">
+          <img src={decorative4} alt="" className="absolute bottom-10 left-5 w-32 h-32 opacity-15 hidden md:block" />
+          <div className="container mx-auto px-4 relative z-10">
             <h2 className="text-3xl md:text-4xl font-bold text-center mb-12 text-[#5da3c0]">
               What Parents Are Saying
             </h2>

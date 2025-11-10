@@ -13,18 +13,18 @@ const About = () => {
           <div className="mb-12">
             <h1 className="text-4xl md:text-5xl font-bold mb-8 text-center text-[#5da3c0]">Hi, I'm Flois!</h1>
             
-            <div className="grid md:grid-cols-[400px_1fr] gap-8 items-start">
-              <div className="flex-shrink-0 mx-auto md:mx-0">
+            <div className="flex flex-col items-center gap-8">
+              <div className="flex-shrink-0">
                 <img 
                   src="https://qjivusdkfvjrzaqyxxmy.supabase.co/storage/v1/object/public/blog-images/0.7296860073967326.jpg"
                   alt="Flois - CrayonEdge Author"
-                  className="w-full max-w-[400px] aspect-square object-cover rounded-3xl shadow-2xl border-8 border-gradient"
+                  className="w-full max-w-[400px] aspect-square object-cover rounded-3xl shadow-2xl border-8 border-gradient mx-auto"
                   style={{
                     borderImage: 'linear-gradient(135deg, hsl(25, 97%, 91%), hsl(333, 60%, 94%)) 1'
                   }}
                 />
               </div>
-              <div className="flex flex-col justify-center">
+              <div className="text-center max-w-2xl">
                 <p className="text-xl text-muted-foreground leading-relaxed">
                   A parent's journey through intentional parenting and child development
                 </p>

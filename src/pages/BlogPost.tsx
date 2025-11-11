@@ -77,7 +77,7 @@ const BlogPost = () => {
           <div className="text-center">
             <h1 className="text-4xl font-bold mb-4">Post Not Found</h1>
             <p className="text-muted-foreground mb-8">The post you're looking for doesn't exist.</p>
-            <Link to="/blog" className="text-primary hover:underline">
+            <Link to="/blog" className="font-medium text-[#99d1e6] hover:text-[#5da3c0] transition-smooth">
               ← Back to Blog
             </Link>
           </div>
@@ -94,7 +94,7 @@ const BlogPost = () => {
       <main className="flex-1">
         <article className="py-12">
           <div className="container mx-auto px-4 max-w-4xl">
-            <Link to="/blog" className="text-primary hover:underline mb-8 inline-block">
+            <Link to="/blog" className="mb-8 inline-block font-medium text-[#99d1e6] hover:text-[#5da3c0] transition-smooth">
               ← Back to Blog
             </Link>
 

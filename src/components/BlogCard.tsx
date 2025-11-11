@@ -46,7 +46,7 @@ const BlogCard = ({ id, title, excerpt, image, date, category }: BlogCardProps) 
         
         <Link 
           to={`/blog/${id}`}
-          className="text-primary hover:text-primary-dark font-medium inline-flex items-center gap-1 transition-smooth"
+          className="font-medium inline-flex items-center gap-1 transition-smooth text-[#99d1e6] hover:text-[#5da3c0]"
         >
           Read More →
         </Link>

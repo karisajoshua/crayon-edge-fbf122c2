@@ -186,7 +186,7 @@ const Home = () => {
           <div className="container mx-auto px-4 relative z-10">
             <div className="flex justify-between items-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-[#5da3c0]">Latest Articles</h2>
-              <Link to="/blog" className="text-primary hover:text-primary-dark font-medium">
+              <Link to="/blog" className="font-medium text-[#99d1e6] hover:text-[#5da3c0] transition-smooth text-lg">
                 View All →
               </Link>
             </div>

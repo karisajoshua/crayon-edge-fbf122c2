@@ -34,10 +34,6 @@ const About = () => {
 
           <div className="prose prose-lg max-w-none space-y-8">
             <div className="bg-gradient-soft rounded-2xl p-8 md:p-12">
-              <div className="flex justify-center mb-6">
-                <Heart className="w-16 h-16 text-primary" />
-              </div>
-              
               <p className="text-lg leading-relaxed">
                 I've always believed in parenting with intention, where you understand your child and make thoughtful choices that support their growth, confidence, and emotional well-being. My interest in how children think and feel guided me toward a Bachelor's degree, then a Master's in Early Childhood Development, where I focused on the kinds of support that help children feel safe, capable, and loved, as well as on what strengthens the parent-child bond. Parenting is not always easy. Some days I get it right, some days I do not, but every day I learn something new about myself and my children, which makes the whole journey meaningful.
               </p>

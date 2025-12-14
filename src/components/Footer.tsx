@@ -1,10 +1,59 @@
+import { useState } from "react";
 import { Facebook, Instagram, Mail, Twitter } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
 import footerLogo from "@/assets/crayon_edge_footer_logo.webp";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
+import { z } from "zod";
+
+const emailSchema = z.string().trim().email("Please enter a valid email address").max(255);
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubscribe = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    const result = emailSchema.safeParse(email);
+    if (!result.success) {
+      toast({
+        title: "Invalid email",
+        description: result.error.errors[0]?.message || "Please enter a valid email",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setLoading(true);
+    const { error } = await supabase.from("newsletter_subscribers").insert({
+      email: result.data,
+    });
+
+    if (error) {
+      if (error.code === "23505") {
+        toast({
+          title: "Already subscribed",
+          description: "This email is already on our list!",
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: "Failed to subscribe. Please try again.",
+          variant: "destructive",
+        });
+      }
+    } else {
+      toast({
+        title: "Subscribed!",
+        description: "Thank you for subscribing to our newsletter.",
+      });
+      setEmail("");
+    }
+    setLoading(false);
+  };
+
   return (
     <footer className="bg-[hsl(var(--footer))] mt-20">
       <div className="container mx-auto px-4 py-12">
@@ -24,16 +73,24 @@ const Footer = () => {
             <p className="text-muted-foreground mb-4">
               Get simple, intentional parenting guidance straight to your inbox.
             </p>
-            <div className="flex gap-2">
+            <form onSubmit={handleSubscribe} className="flex gap-2">
               <Input 
                 type="email" 
                 placeholder="Your email address" 
                 className="bg-background"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={loading}
               />
-              <Button variant="default" className="bg-primary hover:bg-primary-dark text-foreground">
-                Subscribe
+              <Button 
+                type="submit"
+                variant="default" 
+                className="bg-primary hover:bg-primary-dark text-foreground"
+                disabled={loading}
+              >
+                {loading ? "..." : "Subscribe"}
               </Button>
-            </div>
+            </form>
           </div>
 
           {/* Quick Links & Social */}

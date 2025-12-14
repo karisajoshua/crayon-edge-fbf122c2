@@ -141,6 +141,36 @@ export type Database = {
           },
         ]
       }
+      contact_messages: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          message: string
+          name: string
+          read: boolean
+          subject: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          message: string
+          name: string
+          read?: boolean
+          subject: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          message?: string
+          name?: string
+          read?: boolean
+          subject?: string
+        }
+        Relationships: []
+      }
       media: {
         Row: {
           alt_text: string | null
@@ -165,6 +195,27 @@ export type Database = {
           id?: string
           uploaded_by?: string | null
           url?: string
+        }
+        Relationships: []
+      }
+      newsletter_subscribers: {
+        Row: {
+          email: string
+          id: string
+          subscribed_at: string
+          unsubscribed: boolean
+        }
+        Insert: {
+          email: string
+          id?: string
+          subscribed_at?: string
+          unsubscribed?: boolean
+        }
+        Update: {
+          email?: string
+          id?: string
+          subscribed_at?: string
+          unsubscribed?: boolean
         }
         Relationships: []
       }

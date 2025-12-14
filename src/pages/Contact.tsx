@@ -1,11 +1,79 @@
+import { useState } from "react";
 import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Mail, Instagram, Facebook, Twitter } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/hooks/use-toast";
+import { z } from "zod";
+
+const contactSchema = z.object({
+  name: z.string().trim().min(1, "Name is required").max(100, "Name must be less than 100 characters"),
+  email: z.string().trim().email("Invalid email address").max(255, "Email must be less than 255 characters"),
+  subject: z.string().trim().min(1, "Subject is required").max(200, "Subject must be less than 200 characters"),
+  message: z.string().trim().min(1, "Message is required").max(2000, "Message must be less than 2000 characters"),
+});
 
 const Contact = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+    if (errors[name]) {
+      setErrors((prev) => ({ ...prev, [name]: "" }));
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrors({});
+
+    const result = contactSchema.safeParse(formData);
+    if (!result.success) {
+      const fieldErrors: Record<string, string> = {};
+      result.error.errors.forEach((err) => {
+        if (err.path[0]) {
+          fieldErrors[err.path[0] as string] = err.message;
+        }
+      });
+      setErrors(fieldErrors);
+      return;
+    }
+
+    setLoading(true);
+    const { error } = await supabase.from("contact_messages").insert({
+      name: result.data.name,
+      email: result.data.email,
+      subject: result.data.subject,
+      message: result.data.message,
+    });
+
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to send message. Please try again.",
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Message sent!",
+        description: "Thank you for reaching out. I'll get back to you soon.",
+      });
+      setFormData({ name: "", email: "", subject: "", message: "" });
+    }
+    setLoading(false);
+  };
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navigation />
@@ -26,28 +94,59 @@ const Contact = () => {
               {/* Contact Form */}
               <div>
                 <h2 className="text-3xl font-bold mb-6">Get in Touch</h2>
-                <form className="space-y-4">
+                <form className="space-y-4" onSubmit={handleSubmit}>
                   <div>
                     <label className="block text-sm font-medium mb-2">Your Name</label>
-                    <Input placeholder="Jane Doe" />
+                    <Input 
+                      name="name"
+                      placeholder="Jane Doe" 
+                      value={formData.name}
+                      onChange={handleChange}
+                      className={errors.name ? "border-destructive" : ""}
+                    />
+                    {errors.name && <p className="text-sm text-destructive mt-1">{errors.name}</p>}
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-2">Email Address</label>
-                    <Input type="email" placeholder="jane@example.com" />
+                    <Input 
+                      name="email"
+                      type="email" 
+                      placeholder="jane@example.com" 
+                      value={formData.email}
+                      onChange={handleChange}
+                      className={errors.email ? "border-destructive" : ""}
+                    />
+                    {errors.email && <p className="text-sm text-destructive mt-1">{errors.email}</p>}
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-2">Subject</label>
-                    <Input placeholder="What's this about?" />
+                    <Input 
+                      name="subject"
+                      placeholder="What's this about?" 
+                      value={formData.subject}
+                      onChange={handleChange}
+                      className={errors.subject ? "border-destructive" : ""}
+                    />
+                    {errors.subject && <p className="text-sm text-destructive mt-1">{errors.subject}</p>}
                   </div>
                   <div>
                     <label className="block text-sm font-medium mb-2">Message</label>
                     <Textarea 
+                      name="message"
                       placeholder="Share your thoughts..." 
-                      className="min-h-[150px]"
+                      className={`min-h-[150px] ${errors.message ? "border-destructive" : ""}`}
+                      value={formData.message}
+                      onChange={handleChange}
                     />
+                    {errors.message && <p className="text-sm text-destructive mt-1">{errors.message}</p>}
                   </div>
-                  <Button className="w-full bg-primary hover:bg-primary-dark text-foreground" size="lg">
-                    Send Message
+                  <Button 
+                    type="submit"
+                    className="w-full bg-primary hover:bg-primary-dark text-foreground" 
+                    size="lg"
+                    disabled={loading}
+                  >
+                    {loading ? "Sending..." : "Send Message"}
                   </Button>
                 </form>
               </div>

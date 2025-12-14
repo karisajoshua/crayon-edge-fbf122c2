@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileText, Image, Eye, Plus } from "lucide-react";
+import { FileText, Image, Eye, Plus, Mail, Inbox } from "lucide-react";
 
 const Dashboard = () => {
   const [stats, setStats] = useState({
@@ -11,6 +11,8 @@ const Dashboard = () => {
     publishedPosts: 0,
     draftPosts: 0,
     totalMedia: 0,
+    totalSubscribers: 0,
+    unreadMessages: 0,
   });
 
   useEffect(() => {
@@ -18,9 +20,11 @@ const Dashboard = () => {
   }, []);
 
   const fetchStats = async () => {
-    const [postsResult, mediaResult] = await Promise.all([
+    const [postsResult, mediaResult, subscribersResult, messagesResult] = await Promise.all([
       supabase.from("blog_posts").select("published", { count: "exact" }),
       supabase.from("media").select("id", { count: "exact" }),
+      supabase.from("newsletter_subscribers").select("id", { count: "exact" }),
+      supabase.from("contact_messages").select("read", { count: "exact" }),
     ]);
 
     const posts = postsResult.data || [];
@@ -28,12 +32,17 @@ const Dashboard = () => {
     const publishedPosts = posts.filter((p) => p.published).length;
     const draftPosts = totalPosts - publishedPosts;
     const totalMedia = mediaResult.count || 0;
+    const totalSubscribers = subscribersResult.count || 0;
+    const messages = messagesResult.data || [];
+    const unreadMessages = messages.filter((m) => !m.read).length;
 
     setStats({
       totalPosts,
       publishedPosts,
       draftPosts,
       totalMedia,
+      totalSubscribers,
+      unreadMessages,
     });
   };
 
@@ -52,7 +61,7 @@ const Dashboard = () => {
         </Link>
       </div>
 
-      <div className="grid md:grid-cols-4 gap-6">
+      <div className="grid md:grid-cols-3 lg:grid-cols-6 gap-6">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Posts</CardTitle>
@@ -94,6 +103,28 @@ const Dashboard = () => {
           <CardContent>
             <div className="text-2xl font-bold">{stats.totalMedia}</div>
             <p className="text-xs text-muted-foreground">Images uploaded</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Subscribers</CardTitle>
+            <Mail className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{stats.totalSubscribers}</div>
+            <p className="text-xs text-muted-foreground">Newsletter subscribers</p>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">Unread Messages</CardTitle>
+            <Inbox className="h-4 w-4 text-muted-foreground" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold">{stats.unreadMessages}</div>
+            <p className="text-xs text-muted-foreground">Contact form messages</p>
           </CardContent>
         </Card>
       </div>

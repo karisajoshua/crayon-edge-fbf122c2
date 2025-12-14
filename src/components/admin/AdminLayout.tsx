@@ -14,7 +14,7 @@ const AdminLayout = () => {
   };
 
   return (
-    <div className="min-h-screen bg-muted">
+    <div className="min-h-screen bg-muted flex flex-col">
       <nav className="bg-background border-b">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
@@ -85,9 +85,13 @@ const AdminLayout = () => {
         </div>
       </nav>
 
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-8 flex-1">
         <Outlet />
       </main>
+
+      <footer className="py-4 text-center text-sm text-muted-foreground border-t bg-background">
+        Powered by Texcortech Systems
+      </footer>
     </div>
   );
 };

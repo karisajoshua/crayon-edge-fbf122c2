@@ -1,7 +1,7 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
-import { LayoutDashboard, FileText, Image, FolderOpen, LogOut, Users, Archive, MessageSquare, Mail, Inbox } from "lucide-react";
+import { LayoutDashboard, FileText, Image, FolderOpen, LogOut, Archive, MessageSquare, Mail, Inbox } from "lucide-react";
 import logo from "@/assets/crayonedge_logo.webp";
 
 const AdminLayout = () => {
@@ -73,12 +73,6 @@ const AdminLayout = () => {
                   <Button variant="ghost" size="sm">
                     <Inbox className="w-4 h-4 mr-2" />
                     Messages
-                  </Button>
-                </Link>
-                <Link to="/admin/users">
-                  <Button variant="ghost" size="sm">
-                    <Users className="w-4 h-4 mr-2" />
-                    Users
                   </Button>
                 </Link>
               </div>

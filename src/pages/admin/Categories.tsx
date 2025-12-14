@@ -6,6 +6,18 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import slugify from "slugify";
+import { Trash2 } from "lucide-react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 const Categories = () => {
   const [categories, setCategories] = useState<any[]>([]);
@@ -15,6 +27,7 @@ const Categories = () => {
     description: "",
     color: "#A3C7E5",
   });
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   useEffect(() => {
     fetchCategories();
@@ -46,6 +59,42 @@ const Categories = () => {
       setFormData({ name: "", slug: "", description: "", color: "#A3C7E5" });
       fetchCategories();
     }
+  };
+
+  const handleDelete = async (categoryId: string, categoryName: string) => {
+    setDeletingId(categoryId);
+    
+    // Check if any posts use this category
+    const { data: posts, error: checkError } = await supabase
+      .from("blog_posts")
+      .select("id")
+      .eq("category_id", categoryId)
+      .limit(1);
+
+    if (checkError) {
+      toast.error("Failed to check for associated posts");
+      setDeletingId(null);
+      return;
+    }
+
+    if (posts && posts.length > 0) {
+      toast.error(`Cannot delete "${categoryName}" - it has associated blog posts. Please reassign or delete those posts first.`);
+      setDeletingId(null);
+      return;
+    }
+
+    const { error } = await supabase
+      .from("categories")
+      .delete()
+      .eq("id", categoryId);
+
+    if (error) {
+      toast.error("Failed to delete category");
+    } else {
+      toast.success("Category deleted successfully!");
+      fetchCategories();
+    }
+    setDeletingId(null);
   };
 
   return (
@@ -107,17 +156,48 @@ const Categories = () => {
           {categories.map((category) => (
             <Card key={category.id}>
               <CardContent className="pt-6">
-                <div className="flex items-center gap-4">
-                  <div
-                    className="w-8 h-8 rounded"
-                    style={{ backgroundColor: category.color }}
-                  />
-                  <div>
-                    <h3 className="font-semibold">{category.name}</h3>
-                    <p className="text-sm text-muted-foreground">
-                      {category.description}
-                    </p>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div
+                      className="w-8 h-8 rounded"
+                      style={{ backgroundColor: category.color }}
+                    />
+                    <div>
+                      <h3 className="font-semibold">{category.name}</h3>
+                      <p className="text-sm text-muted-foreground">
+                        {category.description}
+                      </p>
+                    </div>
                   </div>
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                        disabled={deletingId === category.id}
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Delete Category</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          Are you sure you want to delete "{category.name}"? This action cannot be undone.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction
+                          onClick={() => handleDelete(category.id, category.name)}
+                          className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                        >
+                          Delete
+                        </AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
                 </div>
               </CardContent>
             </Card>

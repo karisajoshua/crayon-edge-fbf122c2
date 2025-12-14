@@ -19,7 +19,6 @@ import PostsList from "@/pages/admin/PostsList";
 import PostEditor from "@/pages/admin/PostEditor";
 import MediaManager from "@/pages/admin/MediaManager";
 import Categories from "@/pages/admin/Categories";
-import UserManagement from "@/pages/admin/UserManagement";
 import ArchivedPosts from "@/pages/admin/ArchivedPosts";
 import CommentModeration from "@/pages/admin/CommentModeration";
 import Subscribers from "@/pages/admin/Subscribers";
@@ -55,7 +54,6 @@ const App = () => (
               <Route path="comments" element={<CommentModeration />} />
               <Route path="subscribers" element={<Subscribers />} />
               <Route path="messages" element={<Messages />} />
-              <Route path="users" element={<UserManagement />} />
             </Route>
             
             <Route path="*" element={<NotFound />} />

@@ -3,9 +3,23 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Download, Users } from "lucide-react";
-import { format } from "date-fns";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Download, Users, Trash2, CalendarIcon, X } from "lucide-react";
+import { format, isWithinInterval, startOfDay, endOfDay } from "date-fns";
 import { toast } from "@/hooks/use-toast";
+import { cn } from "@/lib/utils";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 interface Subscriber {
   id: string;
@@ -17,6 +31,8 @@ interface Subscriber {
 const Subscribers = () => {
   const [subscribers, setSubscribers] = useState<Subscriber[]>([]);
   const [loading, setLoading] = useState(true);
+  const [startDate, setStartDate] = useState<Date | undefined>(undefined);
+  const [endDate, setEndDate] = useState<Date | undefined>(undefined);
 
   useEffect(() => {
     fetchSubscribers();
@@ -40,8 +56,57 @@ const Subscribers = () => {
     setLoading(false);
   };
 
+  const filteredSubscribers = subscribers.filter((sub) => {
+    if (!startDate && !endDate) return true;
+    
+    const subDate = new Date(sub.subscribed_at);
+    
+    if (startDate && endDate) {
+      return isWithinInterval(subDate, {
+        start: startOfDay(startDate),
+        end: endOfDay(endDate),
+      });
+    }
+    
+    if (startDate) {
+      return subDate >= startOfDay(startDate);
+    }
+    
+    if (endDate) {
+      return subDate <= endOfDay(endDate);
+    }
+    
+    return true;
+  });
+
+  const handleDelete = async (subscriberId: string, email: string) => {
+    const { error } = await supabase
+      .from("newsletter_subscribers")
+      .delete()
+      .eq("id", subscriberId);
+
+    if (error) {
+      toast({
+        title: "Error",
+        description: "Failed to delete subscriber",
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Deleted",
+        description: `Removed ${email} from subscribers`,
+      });
+      fetchSubscribers();
+    }
+  };
+
+  const clearFilters = () => {
+    setStartDate(undefined);
+    setEndDate(undefined);
+  };
+
   const exportToCSV = () => {
-    if (subscribers.length === 0) {
+    if (filteredSubscribers.length === 0) {
       toast({
         title: "No data",
         description: "No subscribers to export",
@@ -53,7 +118,7 @@ const Subscribers = () => {
     const headers = ["Email", "Subscribed At", "Status"];
     const csvContent = [
       headers.join(","),
-      ...subscribers.map((sub) =>
+      ...filteredSubscribers.map((sub) =>
         [
           sub.email,
           format(new Date(sub.subscribed_at), "yyyy-MM-dd HH:mm:ss"),
@@ -74,7 +139,7 @@ const Subscribers = () => {
 
     toast({
       title: "Export complete",
-      description: `Exported ${subscribers.length} subscribers`,
+      description: `Exported ${filteredSubscribers.length} subscribers`,
     });
   };
 
@@ -91,21 +156,96 @@ const Subscribers = () => {
         </div>
         <Button onClick={exportToCSV}>
           <Download className="w-4 h-4 mr-2" />
-          Export CSV
+          Export CSV {filteredSubscribers.length !== subscribers.length && `(${filteredSubscribers.length})`}
         </Button>
       </div>
+
+      {/* Date Range Filter */}
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-lg">Filter by Date</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-wrap items-center gap-4">
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-muted-foreground">From:</span>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-[200px] justify-start text-left font-normal",
+                      !startDate && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {startDate ? format(startDate, "PPP") : "Select start date"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={startDate}
+                    onSelect={setStartDate}
+                    initialFocus
+                    className="p-3 pointer-events-auto"
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <span className="text-sm text-muted-foreground">To:</span>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button
+                    variant="outline"
+                    className={cn(
+                      "w-[200px] justify-start text-left font-normal",
+                      !endDate && "text-muted-foreground"
+                    )}
+                  >
+                    <CalendarIcon className="mr-2 h-4 w-4" />
+                    {endDate ? format(endDate, "PPP") : "Select end date"}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-auto p-0" align="start">
+                  <Calendar
+                    mode="single"
+                    selected={endDate}
+                    onSelect={setEndDate}
+                    initialFocus
+                    className="p-3 pointer-events-auto"
+                  />
+                </PopoverContent>
+              </Popover>
+            </div>
+
+            {(startDate || endDate) && (
+              <Button variant="ghost" size="sm" onClick={clearFilters}>
+                <X className="w-4 h-4 mr-1" />
+                Clear
+              </Button>
+            )}
+          </div>
+        </CardContent>
+      </Card>
 
       <Card>
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
           <div>
             <CardTitle>All Subscribers</CardTitle>
-            <CardDescription>Total: {subscribers.length} subscribers</CardDescription>
+            <CardDescription>
+              Showing: {filteredSubscribers.length} of {subscribers.length} subscribers
+            </CardDescription>
           </div>
           <Users className="h-5 w-5 text-muted-foreground" />
         </CardHeader>
         <CardContent>
-          {subscribers.length === 0 ? (
-            <p className="text-center text-muted-foreground py-8">No subscribers yet</p>
+          {filteredSubscribers.length === 0 ? (
+            <p className="text-center text-muted-foreground py-8">
+              {subscribers.length === 0 ? "No subscribers yet" : "No subscribers match the selected date range"}
+            </p>
           ) : (
             <Table>
               <TableHeader>
@@ -113,10 +253,11 @@ const Subscribers = () => {
                   <TableHead>Email</TableHead>
                   <TableHead>Subscribed At</TableHead>
                   <TableHead>Status</TableHead>
+                  <TableHead className="w-[80px]">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {subscribers.map((subscriber) => (
+                {filteredSubscribers.map((subscriber) => (
                   <TableRow key={subscriber.id}>
                     <TableCell className="font-medium">{subscriber.email}</TableCell>
                     <TableCell>
@@ -132,6 +273,36 @@ const Subscribers = () => {
                       >
                         {subscriber.unsubscribed ? "Unsubscribed" : "Active"}
                       </span>
+                    </TableCell>
+                    <TableCell>
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="text-destructive hover:text-destructive hover:bg-destructive/10"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Delete Subscriber</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Are you sure you want to remove "{subscriber.email}" from your subscribers? This action cannot be undone.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={() => handleDelete(subscriber.id, subscriber.email)}
+                              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                            >
+                              Delete
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
                     </TableCell>
                   </TableRow>
                 ))}

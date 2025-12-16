@@ -2,15 +2,17 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Palette, Sparkles, PenTool } from "lucide-react";
+import logo from "@/assets/crayonedge_logo.webp";
 
 const CreativeLanding = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 via-pink-50 to-blue-50">
+    <div className="min-h-screen bg-gradient-to-b from-amber-50 via-pink-50 to-blue-50 flex flex-col">
       {/* Header */}
       <header className="py-6 px-4">
         <div className="container mx-auto flex items-center justify-between">
-          <Link to="/creative" className="text-2xl font-bold text-primary">
-            CrayonEdge Creative
+          <Link to="/creative" className="flex items-center gap-2">
+            <img src={logo} alt="CrayonEdge" className="h-10" />
+            <span className="text-xl font-bold text-primary">Creative</span>
           </Link>
           <Link to="/creative/parent/login">
             <Button variant="outline">Parent Login</Button>
@@ -37,7 +39,7 @@ const CreativeLanding = () => {
       </section>
 
       {/* Age Group Cards */}
-      <section className="py-12 px-4">
+      <section className="py-12 px-4 flex-1">
         <div className="container mx-auto">
           <h2 className="text-2xl font-bold text-center mb-10">Choose Your Creative Space</h2>
           
@@ -196,10 +198,18 @@ const CreativeLanding = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-8 px-4 text-center text-muted-foreground">
-        <p className="text-sm">
-          Part of the <Link to="/" className="text-primary hover:underline">CrayonEdge</Link> family
-        </p>
+      <footer className="py-8 px-4 text-center border-t bg-white/50">
+        <div className="container mx-auto space-y-3">
+          <Link to="/creative">
+            <img src={logo} alt="CrayonEdge" className="h-8 mx-auto" />
+          </Link>
+          <p className="text-xs text-muted-foreground">
+            Powered by Texcortech Systems
+          </p>
+          <p className="text-sm text-muted-foreground">
+            Part of the <Link to="/" className="text-primary hover:underline">CrayonEdge</Link> family
+          </p>
+        </div>
       </footer>
     </div>
   );

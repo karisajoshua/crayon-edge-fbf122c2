@@ -2,13 +2,14 @@ import { Link, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ArrowLeft, Palette, Shapes, Move } from "lucide-react";
+import CreativeLayout from "@/components/creative/CreativeLayout";
 
 const MinisHome = () => {
   const [searchParams] = useSearchParams();
   const childId = searchParams.get("child");
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-100 via-amber-50 to-yellow-50">
+    <CreativeLayout className="bg-gradient-to-b from-amber-100 via-amber-50 to-yellow-50">
       {/* Header - Large, friendly */}
       <header className="py-6 px-4 bg-amber-200/50">
         <div className="container mx-auto flex items-center justify-between">
@@ -76,7 +77,7 @@ const MinisHome = () => {
           </p>
         </div>
       </main>
-    </div>
+    </CreativeLayout>
   );
 };
 

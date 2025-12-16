@@ -2,6 +2,7 @@ import { Link, useSearchParams } from "react-router-dom";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, BookOpen, Layout, Lightbulb, Briefcase } from "lucide-react";
+import CreativeLayout from "@/components/creative/CreativeLayout";
 
 const StudioHome = () => {
   const [searchParams] = useSearchParams();
@@ -15,7 +16,7 @@ const StudioHome = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-100 via-slate-50 to-zinc-50">
+    <CreativeLayout className="bg-gradient-to-b from-slate-100 via-slate-50 to-zinc-50">
       <header className="py-6 px-4 bg-slate-200/50">
         <div className="container mx-auto flex items-center justify-between">
           <Link to="/creative/parent/dashboard" className="p-2 bg-white rounded-full shadow-sm hover:shadow-md">
@@ -55,7 +56,7 @@ const StudioHome = () => {
           ))}
         </div>
       </main>
-    </div>
+    </CreativeLayout>
   );
 };
 

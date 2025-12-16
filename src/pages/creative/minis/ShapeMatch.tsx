@@ -1,40 +1,56 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, RotateCcw, Star } from "lucide-react";
+import { ArrowLeft, RotateCcw, Star, Shuffle } from "lucide-react";
+import { useSoundSettings } from "@/hooks/useSoundSettings";
+import CreativeLayout from "@/components/creative/CreativeLayout";
+
+type ShapeType = "circle" | "square" | "triangle" | "star" | "heart" | "diamond" | "hexagon" | "pentagon";
 
 interface Shape {
   id: string;
-  type: "circle" | "square" | "triangle";
+  type: ShapeType;
   color: string;
   matched: boolean;
 }
 
-const SHAPES: Shape[] = [
-  { id: "1", type: "circle", color: "#FF6B6B", matched: false },
-  { id: "2", type: "square", color: "#69DB7C", matched: false },
-  { id: "3", type: "triangle", color: "#74C0FC", matched: false },
-];
+const ALL_SHAPE_TYPES: ShapeType[] = ["circle", "square", "triangle", "star", "heart", "diamond", "hexagon", "pentagon"];
+const COLORS = ["#FF6B6B", "#69DB7C", "#74C0FC", "#FAB005", "#DA77F2", "#FF8787", "#63E6BE", "#748FFC"];
+
+const getRandomShapes = (count: number = 3): Shape[] => {
+  const shuffledTypes = [...ALL_SHAPE_TYPES].sort(() => Math.random() - 0.5);
+  const shuffledColors = [...COLORS].sort(() => Math.random() - 0.5);
+  
+  return shuffledTypes.slice(0, count).map((type, index) => ({
+    id: String(index + 1),
+    type,
+    color: shuffledColors[index],
+    matched: false,
+  }));
+};
 
 const ShapeMatch = () => {
   const [searchParams] = useSearchParams();
   const childId = searchParams.get("child");
-  const [shapes, setShapes] = useState<Shape[]>(SHAPES);
+  const [shapes, setShapes] = useState<Shape[]>(() => getRandomShapes(3));
   const [selectedShape, setSelectedShape] = useState<string | null>(null);
   const [showCelebration, setShowCelebration] = useState(false);
+  const { playClick, playMatch, playCelebration } = useSoundSettings();
 
   const allMatched = shapes.every((s) => s.matched);
 
   const handleShapeSelect = (shapeId: string) => {
     if (shapes.find((s) => s.id === shapeId)?.matched) return;
+    playClick();
     setSelectedShape(shapeId);
   };
 
-  const handleOutlineClick = (outlineType: string) => {
+  const handleOutlineClick = (outlineType: ShapeType) => {
     if (!selectedShape) return;
     
     const shape = shapes.find((s) => s.id === selectedShape);
     if (shape && shape.type === outlineType && !shape.matched) {
+      playMatch();
       setShapes((prev) =>
         prev.map((s) => (s.id === selectedShape ? { ...s, matched: true } : s))
       );
@@ -45,18 +61,26 @@ const ShapeMatch = () => {
         s.id === selectedShape ? { ...s, matched: true } : s
       );
       if (newShapes.every((s) => s.matched)) {
+        playCelebration();
         setShowCelebration(true);
       }
     }
   };
 
   const handleReset = () => {
-    setShapes(SHAPES.map((s) => ({ ...s, matched: false })));
+    setShapes((prev) => prev.map((s) => ({ ...s, matched: false })));
     setSelectedShape(null);
     setShowCelebration(false);
   };
 
-  const renderShape = (type: string, filled: boolean, color: string, size: number = 80) => {
+  const handleNewShapes = () => {
+    setShapes(getRandomShapes(3));
+    setSelectedShape(null);
+    setShowCelebration(false);
+    playClick();
+  };
+
+  const renderShape = (type: ShapeType, filled: boolean, color: string, size: number = 80) => {
     const fill = filled ? color : "transparent";
     const stroke = color;
     const strokeWidth = filled ? 0 : 4;
@@ -103,13 +127,75 @@ const ShapeMatch = () => {
             />
           </svg>
         );
+      case "star":
+        return (
+          <svg width={size} height={size} viewBox="0 0 100 100">
+            <polygon
+              points="50,5 61,39 97,39 68,61 79,95 50,73 21,95 32,61 3,39 39,39"
+              fill={fill}
+              stroke={stroke}
+              strokeWidth={strokeWidth}
+              strokeDasharray={filled ? "0" : "8 4"}
+            />
+          </svg>
+        );
+      case "heart":
+        return (
+          <svg width={size} height={size} viewBox="0 0 100 100">
+            <path
+              d="M50,88 C20,60 5,40 15,25 C25,10 45,15 50,30 C55,15 75,10 85,25 C95,40 80,60 50,88"
+              fill={fill}
+              stroke={stroke}
+              strokeWidth={strokeWidth}
+              strokeDasharray={filled ? "0" : "8 4"}
+            />
+          </svg>
+        );
+      case "diamond":
+        return (
+          <svg width={size} height={size} viewBox="0 0 100 100">
+            <polygon
+              points="50,5 95,50 50,95 5,50"
+              fill={fill}
+              stroke={stroke}
+              strokeWidth={strokeWidth}
+              strokeDasharray={filled ? "0" : "8 4"}
+            />
+          </svg>
+        );
+      case "hexagon":
+        return (
+          <svg width={size} height={size} viewBox="0 0 100 100">
+            <polygon
+              points="50,5 90,27 90,73 50,95 10,73 10,27"
+              fill={fill}
+              stroke={stroke}
+              strokeWidth={strokeWidth}
+              strokeDasharray={filled ? "0" : "8 4"}
+            />
+          </svg>
+        );
+      case "pentagon":
+        return (
+          <svg width={size} height={size} viewBox="0 0 100 100">
+            <polygon
+              points="50,5 95,38 77,93 23,93 5,38"
+              fill={fill}
+              stroke={stroke}
+              strokeWidth={strokeWidth}
+              strokeDasharray={filled ? "0" : "8 4"}
+            />
+          </svg>
+        );
       default:
         return null;
     }
   };
 
+  const shapeTypes = shapes.map(s => s.type);
+
   return (
-    <div className="min-h-screen bg-gradient-to-b from-green-100 via-green-50 to-amber-50">
+    <CreativeLayout className="bg-gradient-to-b from-green-100 via-green-50 to-amber-50">
       {/* Celebration Overlay */}
       {showCelebration && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
@@ -117,9 +203,15 @@ const ShapeMatch = () => {
             <div className="text-6xl mb-4">🎉</div>
             <h2 className="text-3xl font-bold text-green-600 mb-4">Great Job!</h2>
             <p className="text-xl text-muted-foreground mb-6">You matched all the shapes!</p>
-            <Button onClick={handleReset} size="lg" className="rounded-2xl">
-              Play Again
-            </Button>
+            <div className="flex gap-4 justify-center">
+              <Button onClick={handleReset} size="lg" className="rounded-2xl" variant="outline">
+                Play Again
+              </Button>
+              <Button onClick={handleNewShapes} size="lg" className="rounded-2xl">
+                <Shuffle className="w-5 h-5 mr-2" />
+                New Shapes
+              </Button>
+            </div>
           </div>
         </div>
       )}
@@ -134,19 +226,30 @@ const ShapeMatch = () => {
             <ArrowLeft className="w-6 h-6 text-green-700" />
           </Link>
           <h1 className="text-2xl font-bold text-green-800">Shapes!</h1>
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={handleReset}
-            className="rounded-full bg-white"
-          >
-            <RotateCcw className="w-5 h-5 text-green-700" />
-          </Button>
+          <div className="flex gap-2">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleNewShapes}
+              className="rounded-full bg-white"
+              title="New Shapes"
+            >
+              <Shuffle className="w-5 h-5 text-green-700" />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={handleReset}
+              className="rounded-full bg-white"
+            >
+              <RotateCcw className="w-5 h-5 text-green-700" />
+            </Button>
+          </div>
         </div>
       </header>
 
       <main className="container mx-auto px-4 py-8">
-        {/* Shapes to drag */}
+        {/* Shapes to tap */}
         <div className="mb-12">
           <p className="text-center text-lg text-green-700 mb-4 font-medium">
             Tap a shape below:
@@ -176,7 +279,7 @@ const ShapeMatch = () => {
             {selectedShape ? "Now tap where it goes!" : "Then tap the matching outline!"}
           </p>
           <div className="flex justify-center gap-8 flex-wrap">
-            {["circle", "square", "triangle"].map((type) => {
+            {shapeTypes.map((type) => {
               const matchedShape = shapes.find((s) => s.type === type && s.matched);
               return (
                 <button
@@ -221,7 +324,7 @@ const ShapeMatch = () => {
           </div>
         </div>
       </main>
-    </div>
+    </CreativeLayout>
   );
 };
 

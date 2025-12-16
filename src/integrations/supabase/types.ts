@@ -171,6 +171,499 @@ export type Database = {
         }
         Relationships: []
       }
+      creative_artworks: {
+        Row: {
+          artwork_type: string
+          canvas_data: Json | null
+          child_profile_id: string
+          created_at: string
+          id: string
+          image_url: string | null
+          title: string | null
+        }
+        Insert: {
+          artwork_type?: string
+          canvas_data?: Json | null
+          child_profile_id: string
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          title?: string | null
+        }
+        Update: {
+          artwork_type?: string
+          canvas_data?: Json | null
+          child_profile_id?: string
+          created_at?: string
+          id?: string
+          image_url?: string | null
+          title?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "creative_artworks_child_profile_id_fkey"
+            columns: ["child_profile_id"]
+            isOneToOne: false
+            referencedRelation: "creative_child_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      creative_badges: {
+        Row: {
+          age_group: Database["public"]["Enums"]["creative_age_group"]
+          badge_type: string
+          created_at: string
+          description: string
+          icon: string
+          id: string
+          name: string
+        }
+        Insert: {
+          age_group: Database["public"]["Enums"]["creative_age_group"]
+          badge_type?: string
+          created_at?: string
+          description: string
+          icon: string
+          id?: string
+          name: string
+        }
+        Update: {
+          age_group?: Database["public"]["Enums"]["creative_age_group"]
+          badge_type?: string
+          created_at?: string
+          description?: string
+          icon?: string
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      creative_challenge_completions: {
+        Row: {
+          artwork_id: string | null
+          challenge_id: string
+          child_profile_id: string
+          completed_at: string
+          id: string
+        }
+        Insert: {
+          artwork_id?: string | null
+          challenge_id: string
+          child_profile_id: string
+          completed_at?: string
+          id?: string
+        }
+        Update: {
+          artwork_id?: string | null
+          challenge_id?: string
+          child_profile_id?: string
+          completed_at?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "creative_challenge_completions_artwork_id_fkey"
+            columns: ["artwork_id"]
+            isOneToOne: false
+            referencedRelation: "creative_artworks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "creative_challenge_completions_challenge_id_fkey"
+            columns: ["challenge_id"]
+            isOneToOne: false
+            referencedRelation: "creative_challenges"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "creative_challenge_completions_child_profile_id_fkey"
+            columns: ["child_profile_id"]
+            isOneToOne: false
+            referencedRelation: "creative_child_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      creative_challenges: {
+        Row: {
+          age_group: Database["public"]["Enums"]["creative_age_group"]
+          challenge_type: string
+          created_at: string
+          description: string
+          end_date: string | null
+          id: string
+          is_active: boolean
+          start_date: string | null
+          title: string
+        }
+        Insert: {
+          age_group: Database["public"]["Enums"]["creative_age_group"]
+          challenge_type?: string
+          created_at?: string
+          description: string
+          end_date?: string | null
+          id?: string
+          is_active?: boolean
+          start_date?: string | null
+          title: string
+        }
+        Update: {
+          age_group?: Database["public"]["Enums"]["creative_age_group"]
+          challenge_type?: string
+          created_at?: string
+          description?: string
+          end_date?: string | null
+          id?: string
+          is_active?: boolean
+          start_date?: string | null
+          title?: string
+        }
+        Relationships: []
+      }
+      creative_child_profiles: {
+        Row: {
+          age: number
+          age_group: Database["public"]["Enums"]["creative_age_group"]
+          avatar_url: string | null
+          created_at: string
+          id: string
+          name: string
+          parent_id: string
+          updated_at: string
+        }
+        Insert: {
+          age: number
+          age_group: Database["public"]["Enums"]["creative_age_group"]
+          avatar_url?: string | null
+          created_at?: string
+          id?: string
+          name: string
+          parent_id: string
+          updated_at?: string
+        }
+        Update: {
+          age?: number
+          age_group?: Database["public"]["Enums"]["creative_age_group"]
+          avatar_url?: string | null
+          created_at?: string
+          id?: string
+          name?: string
+          parent_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      creative_coloring_pages: {
+        Row: {
+          created_at: string
+          difficulty: string | null
+          id: string
+          image_url: string
+          is_active: boolean
+          is_premium: boolean
+          title: string
+        }
+        Insert: {
+          created_at?: string
+          difficulty?: string | null
+          id?: string
+          image_url: string
+          is_active?: boolean
+          is_premium?: boolean
+          title: string
+        }
+        Update: {
+          created_at?: string
+          difficulty?: string | null
+          id?: string
+          image_url?: string
+          is_active?: boolean
+          is_premium?: boolean
+          title?: string
+        }
+        Relationships: []
+      }
+      creative_earned_badges: {
+        Row: {
+          badge_id: string
+          child_profile_id: string
+          earned_at: string
+          id: string
+        }
+        Insert: {
+          badge_id: string
+          child_profile_id: string
+          earned_at?: string
+          id?: string
+        }
+        Update: {
+          badge_id?: string
+          child_profile_id?: string
+          earned_at?: string
+          id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "creative_earned_badges_badge_id_fkey"
+            columns: ["badge_id"]
+            isOneToOne: false
+            referencedRelation: "creative_badges"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "creative_earned_badges_child_profile_id_fkey"
+            columns: ["child_profile_id"]
+            isOneToOne: false
+            referencedRelation: "creative_child_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      creative_journal_entries: {
+        Row: {
+          child_profile_id: string
+          content: string
+          created_at: string
+          id: string
+          is_private: boolean
+          mood: string | null
+          prompt_used: string | null
+          title: string | null
+          updated_at: string
+        }
+        Insert: {
+          child_profile_id: string
+          content: string
+          created_at?: string
+          id?: string
+          is_private?: boolean
+          mood?: string | null
+          prompt_used?: string | null
+          title?: string | null
+          updated_at?: string
+        }
+        Update: {
+          child_profile_id?: string
+          content?: string
+          created_at?: string
+          id?: string
+          is_private?: boolean
+          mood?: string | null
+          prompt_used?: string | null
+          title?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "creative_journal_entries_child_profile_id_fkey"
+            columns: ["child_profile_id"]
+            isOneToOne: false
+            referencedRelation: "creative_child_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      creative_mood_boards: {
+        Row: {
+          board_data: Json
+          child_profile_id: string
+          created_at: string
+          id: string
+          is_private: boolean
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          board_data?: Json
+          child_profile_id: string
+          created_at?: string
+          id?: string
+          is_private?: boolean
+          title?: string
+          updated_at?: string
+        }
+        Update: {
+          board_data?: Json
+          child_profile_id?: string
+          created_at?: string
+          id?: string
+          is_private?: boolean
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "creative_mood_boards_child_profile_id_fkey"
+            columns: ["child_profile_id"]
+            isOneToOne: false
+            referencedRelation: "creative_child_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      creative_parent_settings: {
+        Row: {
+          created_at: string
+          id: string
+          session_limit_minutes: number | null
+          sound_enabled: boolean
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          session_limit_minutes?: number | null
+          sound_enabled?: boolean
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          session_limit_minutes?: number | null
+          sound_enabled?: boolean
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      creative_portfolio_items: {
+        Row: {
+          child_profile_id: string
+          created_at: string
+          display_order: number | null
+          id: string
+          is_public: boolean
+          item_id: string
+          item_type: string
+        }
+        Insert: {
+          child_profile_id: string
+          created_at?: string
+          display_order?: number | null
+          id?: string
+          is_public?: boolean
+          item_id: string
+          item_type: string
+        }
+        Update: {
+          child_profile_id?: string
+          created_at?: string
+          display_order?: number | null
+          id?: string
+          is_public?: boolean
+          item_id?: string
+          item_type?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "creative_portfolio_items_child_profile_id_fkey"
+            columns: ["child_profile_id"]
+            isOneToOne: false
+            referencedRelation: "creative_child_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      creative_prompts: {
+        Row: {
+          age_group: Database["public"]["Enums"]["creative_age_group"]
+          category: Database["public"]["Enums"]["creative_prompt_category"]
+          created_at: string
+          id: string
+          is_active: boolean
+          is_ai_generated: boolean
+          prompt_text: string
+        }
+        Insert: {
+          age_group: Database["public"]["Enums"]["creative_age_group"]
+          category: Database["public"]["Enums"]["creative_prompt_category"]
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          is_ai_generated?: boolean
+          prompt_text: string
+        }
+        Update: {
+          age_group?: Database["public"]["Enums"]["creative_age_group"]
+          category?: Database["public"]["Enums"]["creative_prompt_category"]
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          is_ai_generated?: boolean
+          prompt_text?: string
+        }
+        Relationships: []
+      }
+      creative_session_logs: {
+        Row: {
+          child_profile_id: string
+          duration_minutes: number | null
+          ended_at: string | null
+          id: string
+          started_at: string
+        }
+        Insert: {
+          child_profile_id: string
+          duration_minutes?: number | null
+          ended_at?: string | null
+          id?: string
+          started_at?: string
+        }
+        Update: {
+          child_profile_id?: string
+          duration_minutes?: number | null
+          ended_at?: string | null
+          id?: string
+          started_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "creative_session_logs_child_profile_id_fkey"
+            columns: ["child_profile_id"]
+            isOneToOne: false
+            referencedRelation: "creative_child_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      creative_stories: {
+        Row: {
+          child_profile_id: string
+          created_at: string
+          id: string
+          pages: Json
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          child_profile_id: string
+          created_at?: string
+          id?: string
+          pages?: Json
+          title?: string
+          updated_at?: string
+        }
+        Update: {
+          child_profile_id?: string
+          created_at?: string
+          id?: string
+          pages?: Json
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "creative_stories_child_profile_id_fkey"
+            columns: ["child_profile_id"]
+            isOneToOne: false
+            referencedRelation: "creative_child_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       media: {
         Row: {
           alt_text: string | null
@@ -255,6 +748,16 @@ export type Database = {
     }
     Enums: {
       app_role: "admin" | "user"
+      creative_age_group: "minis" | "creators" | "studio"
+      creative_prompt_category:
+        | "journal"
+        | "story"
+        | "challenge"
+        | "idea"
+        | "writing"
+        | "art"
+        | "design"
+        | "reflection"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -383,6 +886,17 @@ export const Constants = {
   public: {
     Enums: {
       app_role: ["admin", "user"],
+      creative_age_group: ["minis", "creators", "studio"],
+      creative_prompt_category: [
+        "journal",
+        "story",
+        "challenge",
+        "idea",
+        "writing",
+        "art",
+        "design",
+        "reflection",
+      ],
     },
   },
 } as const

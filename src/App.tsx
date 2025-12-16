@@ -24,6 +24,23 @@ import CommentModeration from "@/pages/admin/CommentModeration";
 import Subscribers from "@/pages/admin/Subscribers";
 import Messages from "@/pages/admin/Messages";
 
+// Creative Platform Pages
+import CreativeLanding from "./pages/creative/CreativeLanding";
+import ParentLogin from "./pages/creative/parent/ParentLogin";
+import ParentDashboard from "./pages/creative/parent/ParentDashboard";
+import MinisHome from "./pages/creative/minis/MinisHome";
+import ColoringPage from "./pages/creative/minis/ColoringPage";
+import ShapeMatch from "./pages/creative/minis/ShapeMatch";
+import DragDropPlay from "./pages/creative/minis/DragDropPlay";
+import CreatorsHome from "./pages/creative/creators/CreatorsHome";
+import DrawPad from "./pages/creative/creators/DrawPad";
+import StoryBuilder from "./pages/creative/creators/StoryBuilder";
+import ChallengesHub from "./pages/creative/creators/ChallengesHub";
+import Gallery from "./pages/creative/creators/Gallery";
+import StudioHome from "./pages/creative/studio/StudioHome";
+import DigitalJournal from "./pages/creative/studio/DigitalJournal";
+import IdeaPrompts from "./pages/creative/studio/IdeaPrompts";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -42,6 +59,29 @@ const App = () => (
             <Route path="/blog/category/:category" element={<Blog />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/auth" element={<Auth />} />
+            
+            {/* Creative Platform Routes */}
+            <Route path="/creative" element={<CreativeLanding />} />
+            <Route path="/creative/parent/login" element={<ParentLogin />} />
+            <Route path="/creative/parent/dashboard" element={<ParentDashboard />} />
+            
+            {/* Minis (Ages 2-5) */}
+            <Route path="/creative/minis" element={<MinisHome />} />
+            <Route path="/creative/minis/color" element={<ColoringPage />} />
+            <Route path="/creative/minis/match" element={<ShapeMatch />} />
+            <Route path="/creative/minis/play" element={<DragDropPlay />} />
+            
+            {/* Creators (Ages 6-11) */}
+            <Route path="/creative/creators" element={<CreatorsHome />} />
+            <Route path="/creative/creators/draw" element={<DrawPad />} />
+            <Route path="/creative/creators/story" element={<StoryBuilder />} />
+            <Route path="/creative/creators/challenges" element={<ChallengesHub />} />
+            <Route path="/creative/creators/gallery" element={<Gallery />} />
+            
+            {/* Studio (Ages 12-18) */}
+            <Route path="/creative/studio" element={<StudioHome />} />
+            <Route path="/creative/studio/journal" element={<DigitalJournal />} />
+            <Route path="/creative/studio/prompts" element={<IdeaPrompts />} />
             
             <Route path="/admin" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
               <Route index element={<Dashboard />} />

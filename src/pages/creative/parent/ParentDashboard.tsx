@@ -10,7 +10,8 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
-import { ArrowLeft, Plus, Settings, LogOut, User, Clock, Palette, Sparkles, PenTool, Trash2 } from "lucide-react";
+import { ArrowLeft, Plus, Settings, LogOut, User, Clock, Palette, Sparkles, PenTool, Trash2, Volume2, VolumeX } from "lucide-react";
+import CreativeLayout from "@/components/creative/CreativeLayout";
 
 type AgeGroup = "minis" | "creators" | "studio";
 
@@ -191,10 +192,20 @@ const ParentDashboard = () => {
     try {
       const { error } = await supabase
         .from("creative_parent_settings")
-        .update(updatedSettings)
+        .update({
+          sound_enabled: updatedSettings.sound_enabled,
+          session_limit_minutes: updatedSettings.session_limit_minutes,
+        })
         .eq("user_id", user?.id);
 
       if (error) throw error;
+      
+      toast({
+        title: "Settings saved",
+        description: newSettings.sound_enabled !== undefined 
+          ? `Sound ${updatedSettings.sound_enabled ? "enabled" : "disabled"}`
+          : "Session limit updated",
+      });
     } catch (error: any) {
       toast({
         title: "Error saving settings",
@@ -211,17 +222,19 @@ const ParentDashboard = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-b from-amber-50 via-pink-50 to-blue-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading your dashboard...</p>
+      <CreativeLayout className="bg-gradient-to-b from-amber-50 via-pink-50 to-blue-50">
+        <div className="flex-1 flex items-center justify-center">
+          <div className="text-center">
+            <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+            <p className="text-muted-foreground">Loading your dashboard...</p>
+          </div>
         </div>
-      </div>
+      </CreativeLayout>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-amber-50 via-pink-50 to-blue-50">
+    <CreativeLayout className="bg-gradient-to-b from-amber-50 via-pink-50 to-blue-50">
       {/* Header */}
       <header className="py-6 px-4 border-b bg-white/80 backdrop-blur-sm">
         <div className="container mx-auto flex items-center justify-between">
@@ -238,7 +251,7 @@ const ParentDashboard = () => {
         </div>
       </header>
 
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-8 flex-1">
         {/* Children Profiles Section */}
         <section className="mb-12">
           <div className="flex items-center justify-between mb-6">
@@ -357,7 +370,12 @@ const ParentDashboard = () => {
             <Card className="rounded-3xl">
               <CardHeader>
                 <CardTitle className="text-lg flex items-center gap-2">
-                  <span className="text-2xl">🔊</span> Sound Settings
+                  {settings.sound_enabled ? (
+                    <Volume2 className="w-5 h-5 text-green-600" />
+                  ) : (
+                    <VolumeX className="w-5 h-5 text-muted-foreground" />
+                  )}
+                  Sound Settings
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -408,7 +426,7 @@ const ParentDashboard = () => {
           </div>
         </section>
       </main>
-    </div>
+    </CreativeLayout>
   );
 };
 

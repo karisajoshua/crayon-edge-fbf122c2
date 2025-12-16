@@ -1,1 +1,4 @@
 project_id = "qjivusdkfvjrzaqyxxmy"
+
+[functions.creative-ai]
+verify_jwt = false

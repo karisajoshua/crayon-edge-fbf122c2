@@ -40,6 +40,8 @@ import Gallery from "./pages/creative/creators/Gallery";
 import StudioHome from "./pages/creative/studio/StudioHome";
 import DigitalJournal from "./pages/creative/studio/DigitalJournal";
 import IdeaPrompts from "./pages/creative/studio/IdeaPrompts";
+import MoodBoard from "./pages/creative/studio/MoodBoard";
+import Portfolio from "./pages/creative/studio/Portfolio";
 
 const queryClient = new QueryClient();
 
@@ -82,6 +84,8 @@ const App = () => (
             <Route path="/creative/studio" element={<StudioHome />} />
             <Route path="/creative/studio/journal" element={<DigitalJournal />} />
             <Route path="/creative/studio/prompts" element={<IdeaPrompts />} />
+            <Route path="/creative/studio/moodboard" element={<MoodBoard />} />
+            <Route path="/creative/studio/portfolio" element={<Portfolio />} />
             
             <Route path="/admin" element={<ProtectedRoute><AdminLayout /></ProtectedRoute>}>
               <Route index element={<Dashboard />} />

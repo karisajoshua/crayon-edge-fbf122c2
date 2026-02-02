@@ -140,3 +140,60 @@ All colors MUST be HSL.
   border-image-slice: 1;
   border-image-source: linear-gradient(135deg, hsl(25, 97%, 91%), hsl(333, 60%, 94%));
 }
+
+/* Rich Text Editor - Link styling */
+.ProseMirror a {
+  color: #3b82f6;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Rich Text Editor - Resizable image styling */
+.ProseMirror img {
+  max-width: 100%;
+  height: auto;
+  cursor: pointer;
+}
+
+.ProseMirror img.ProseMirror-selectednode {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+.ProseMirror .image-resizer {
+  display: inline-block;
+  position: relative;
+}
+
+.ProseMirror .image-resizer .resize-trigger {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background: #3b82f6;
+  border: 1px solid white;
+  border-radius: 2px;
+}
+
+.ProseMirror .image-resizer .resize-trigger.top-left {
+  top: -5px;
+  left: -5px;
+  cursor: nwse-resize;
+}
+
+.ProseMirror .image-resizer .resize-trigger.top-right {
+  top: -5px;
+  right: -5px;
+  cursor: nesw-resize;
+}
+
+.ProseMirror .image-resizer .resize-trigger.bottom-left {
+  bottom: -5px;
+  left: -5px;
+  cursor: nesw-resize;
+}
+
+.ProseMirror .image-resizer .resize-trigger.bottom-right {
+  bottom: -5px;
+  right: -5px;
+  cursor: nwse-resize;
+}

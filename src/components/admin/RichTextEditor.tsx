@@ -1,6 +1,6 @@
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import Image from "@tiptap/extension-image";
+import ImageResize from "tiptap-extension-resize-image";
 import Link from "@tiptap/extension-link";
 import TextAlign from "@tiptap/extension-text-align";
 import { Button } from "@/components/ui/button";
@@ -20,7 +20,7 @@ const RichTextEditor = ({ content, onChange }: RichTextEditorProps) => {
   const editor = useEditor({
     extensions: [
       StarterKit,
-      Image,
+      ImageResize,
       Link.configure({
         openOnClick: false,
       }),

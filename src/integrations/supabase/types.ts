@@ -712,6 +712,39 @@ export type Database = {
         }
         Relationships: []
       }
+      toolkit_items: {
+        Row: {
+          category: string
+          created_at: string
+          description: string | null
+          file_url: string | null
+          id: string
+          image_url: string | null
+          is_active: boolean
+          title: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          file_url?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          title: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          file_url?: string | null
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          title?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string | null

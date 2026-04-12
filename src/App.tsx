@@ -23,6 +23,8 @@ import ArchivedPosts from "@/pages/admin/ArchivedPosts";
 import CommentModeration from "@/pages/admin/CommentModeration";
 import Subscribers from "@/pages/admin/Subscribers";
 import Messages from "@/pages/admin/Messages";
+import ParentToolkit from "./pages/ParentToolkit";
+import ToolkitManager from "@/pages/admin/ToolkitManager";
 
 // Creative Platform Pages
 import CreativeLanding from "./pages/creative/CreativeLanding";
@@ -60,6 +62,7 @@ const App = () => (
             <Route path="/blog/:slug" element={<BlogPost />} />
             <Route path="/blog/category/:category" element={<Blog />} />
             <Route path="/contact" element={<Contact />} />
+            <Route path="/toolkit" element={<ParentToolkit />} />
             <Route path="/auth" element={<Auth />} />
             
             {/* Creative Platform Routes */}
@@ -98,6 +101,7 @@ const App = () => (
               <Route path="comments" element={<CommentModeration />} />
               <Route path="subscribers" element={<Subscribers />} />
               <Route path="messages" element={<Messages />} />
+              <Route path="toolkit" element={<ToolkitManager />} />
             </Route>
             
             <Route path="*" element={<NotFound />} />

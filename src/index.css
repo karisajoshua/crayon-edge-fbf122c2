@@ -92,6 +92,9 @@ All colors MUST be HSL.
   .transition-smooth {
     transition: var(--transition-smooth);
   }
+  .perspective-1000 {
+    perspective: 1000px;
+  }
 }
 
 /* Blog content spacing */
@@ -99,9 +102,25 @@ All colors MUST be HSL.
   margin-top: 1.5rem;
 }
 
+@media (max-width: 768px) {
+  .blog-content p + p {
+    margin-top: 1rem;
+  }
+  .blog-content img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+}
+
 .blog-content br {
   display: block;
   margin-bottom: 0.5rem;
+}
+
+/* Blog content links */
+.blog-content a {
+  color: #3b82f6;
+  text-decoration: underline;
 }
 
 .blog-content h2,

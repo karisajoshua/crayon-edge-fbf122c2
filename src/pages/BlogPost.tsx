@@ -93,23 +93,23 @@ const BlogPost = () => {
       <Navigation />
       
       <main className="flex-1">
-        <article className="py-12">
-          <div className="container mx-auto px-4 max-w-4xl">
-            <Link to="/blog" className="mb-8 inline-block font-medium text-[#99d1e6] hover:text-[#5da3c0] transition-smooth">
+        <article className="py-6 md:py-12">
+          <div className="container mx-auto px-3 md:px-4 max-w-4xl">
+            <Link to="/blog" className="mb-6 md:mb-8 inline-block font-medium text-[#99d1e6] hover:text-[#5da3c0] transition-smooth text-sm md:text-base">
               ← Back to Blog
             </Link>
 
-            <header className="mb-8">
-              <div className="flex items-center gap-4 mb-4">
+            <header className="mb-6 md:mb-8">
+              <div className="flex flex-wrap items-center gap-2 md:gap-4 mb-3 md:mb-4">
                 {post.categories && (
                   <Link to={`/blog/category/${post.categories.slug}`}>
-                    <Badge variant="secondary" className="text-sm">
+                    <Badge variant="secondary" className="text-xs md:text-sm">
                       {post.categories.name}
                     </Badge>
                   </Link>
                 )}
-                <div className="flex items-center text-muted-foreground text-sm">
-                  <Calendar className="w-4 h-4 mr-2" />
+                <div className="flex items-center text-muted-foreground text-xs md:text-sm">
+                  <Calendar className="w-3 h-3 md:w-4 md:h-4 mr-1 md:mr-2" />
                   {new Date(post.created_at).toLocaleDateString("en-US", {
                     year: "numeric",
                     month: "long",
@@ -118,10 +118,10 @@ const BlogPost = () => {
                 </div>
               </div>
 
-              <h1 className="text-4xl md:text-5xl font-bold mb-4">{post.title}</h1>
+              <h1 className="text-2xl md:text-4xl lg:text-5xl font-bold mb-3 md:mb-4 leading-tight">{post.title}</h1>
               
               {post.excerpt && (
-                <p className="text-xl text-muted-foreground">{post.excerpt}</p>
+                <p className="text-base md:text-xl text-muted-foreground">{post.excerpt}</p>
               )}
             </header>
 
@@ -129,12 +129,12 @@ const BlogPost = () => {
               <img
                 src={post.featured_image}
                 alt={post.title}
-                className="w-full md:w-3/4 lg:w-2/3 mx-auto rounded-3xl mb-8 shadow-lg"
+                className="w-full md:w-3/4 lg:w-2/3 mx-auto rounded-2xl md:rounded-3xl mb-6 md:mb-8 shadow-lg"
               />
             )}
 
             <div 
-              className="prose prose-lg max-w-none blog-content [&_p]:mb-6 [&_p]:leading-relaxed"
+              className="prose prose-sm md:prose-lg max-w-none blog-content [&_p]:mb-4 md:[&_p]:mb-6 [&_p]:leading-relaxed text-base md:text-lg"
               dangerouslySetInnerHTML={{ 
                 __html: DOMPurify.sanitize(post.content, {
                   ALLOWED_TAGS: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'strong', 'em', 'ul', 'ol', 'li', 'blockquote', 'a', 'img', 'br', 'span', 'div'],
@@ -147,9 +147,9 @@ const BlogPost = () => {
             <CommentSection postId={post.id} />
 
             {relatedPosts.length > 0 && (
-              <div className="mt-16 pt-16 border-t">
-                <h2 className="text-3xl font-bold mb-8">Related Articles</h2>
-                <div className="grid md:grid-cols-3 gap-6">
+              <div className="mt-12 md:mt-16 pt-12 md:pt-16 border-t">
+                <h2 className="text-2xl md:text-3xl font-bold mb-6 md:mb-8">Related Articles</h2>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   {relatedPosts.map((related) => (
                     <Link
                       key={related.id}

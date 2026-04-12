@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import slugify from "slugify";
-import { Trash2 } from "lucide-react";
+import { Trash2, Image as ImageIcon } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -27,7 +27,10 @@ const Categories = () => {
     description: "",
     color: "#A3C7E5",
   });
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     fetchCategories();
@@ -42,29 +45,59 @@ const Categories = () => {
     if (data) setCategories(data);
   };
 
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setImageFile(file);
+      setImagePreview(URL.createObjectURL(file));
+    }
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setUploading(true);
 
-    const { error } = await supabase.from("categories").insert([
-      {
-        ...formData,
-        slug: slugify(formData.name, { lower: true, strict: true }),
-      },
-    ]);
+    try {
+      let image_url: string | null = null;
 
-    if (error) {
-      toast.error(error.message || "Failed to create category");
-    } else {
-      toast.success("Category created successfully!");
-      setFormData({ name: "", slug: "", description: "", color: "#A3C7E5" });
-      fetchCategories();
+      if (imageFile) {
+        const ext = imageFile.name.split(".").pop();
+        const path = `category-images/${Date.now()}.${ext}`;
+        const { error: uploadError } = await supabase.storage
+          .from("blog-images")
+          .upload(path, imageFile);
+        if (uploadError) throw uploadError;
+        const { data: urlData } = supabase.storage.from("blog-images").getPublicUrl(path);
+        image_url = urlData.publicUrl;
+      }
+
+      const { error } = await supabase.from("categories").insert([
+        {
+          ...formData,
+          slug: slugify(formData.name, { lower: true, strict: true }),
+          image_url,
+        },
+      ]);
+
+      if (error) {
+        toast.error(error.message || "Failed to create category");
+      } else {
+        toast.success("Category created successfully!");
+        setFormData({ name: "", slug: "", description: "", color: "#A3C7E5" });
+        setImageFile(null);
+        setImagePreview(null);
+        fetchCategories();
+      }
+    } catch (err: any) {
+      toast.error(err.message || "Failed to create category");
+    } finally {
+      setUploading(false);
     }
   };
 
   const handleDelete = async (categoryId: string, categoryName: string) => {
     setDeletingId(categoryId);
     
-    // Check if any posts use this category
     const { data: posts, error: checkError } = await supabase
       .from("blog_posts")
       .select("id")
@@ -146,7 +179,26 @@ const Categories = () => {
                 />
               </div>
 
-              <Button type="submit">Create Category</Button>
+              <div className="space-y-2">
+                <Label htmlFor="category-image">Featured Image</Label>
+                <Input
+                  id="category-image"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                />
+                {imagePreview && (
+                  <img
+                    src={imagePreview}
+                    alt="Preview"
+                    className="w-full h-32 object-cover rounded-lg mt-2"
+                  />
+                )}
+              </div>
+
+              <Button type="submit" disabled={uploading}>
+                {uploading ? "Creating..." : "Create Category"}
+              </Button>
             </form>
           </CardContent>
         </Card>
@@ -158,10 +210,20 @@ const Categories = () => {
               <CardContent className="pt-6">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
-                    <div
-                      className="w-8 h-8 rounded"
-                      style={{ backgroundColor: category.color }}
-                    />
+                    {category.image_url ? (
+                      <img
+                        src={category.image_url}
+                        alt={category.name}
+                        className="w-12 h-12 rounded-lg object-cover"
+                      />
+                    ) : (
+                      <div
+                        className="w-12 h-12 rounded-lg flex items-center justify-center"
+                        style={{ backgroundColor: category.color || '#A3C7E5' }}
+                      >
+                        <ImageIcon className="w-5 h-5 text-white/70" />
+                      </div>
+                    )}
                     <div>
                       <h3 className="font-semibold">{category.name}</h3>
                       <p className="text-sm text-muted-foreground">

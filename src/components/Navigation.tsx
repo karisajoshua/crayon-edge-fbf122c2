@@ -111,6 +111,9 @@ const Navigation = () => {
               )}
             </div>
 
+            <Link to="/toolkit" className="heading-font font-medium transition-smooth text-[#5da3c0] hover:text-[#4a8da7]">
+              Parent Toolkit
+            </Link>
             <Link to="/contact" className="heading-font font-medium transition-smooth text-[#5da3c0] hover:text-[#4a8da7]">
               Contact
             </Link>
@@ -177,7 +180,10 @@ const Navigation = () => {
                   </Link>
                 ))}
               </div>
-              <Link to="/contact" className="heading-font font-medium hover:text-primary transition-smooth">
+              <Link to="/toolkit" className="heading-font font-medium hover:text-primary transition-smooth" onClick={() => setIsOpen(false)}>
+                Parent Toolkit
+              </Link>
+              <Link to="/contact" className="heading-font font-medium hover:text-primary transition-smooth" onClick={() => setIsOpen(false)}>
                 Contact
               </Link>
               

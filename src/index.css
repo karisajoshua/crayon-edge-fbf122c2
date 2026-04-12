@@ -92,6 +92,9 @@ All colors MUST be HSL.
   .transition-smooth {
     transition: var(--transition-smooth);
   }
+  .perspective-1000 {
+    perspective: 1000px;
+  }
 }
 
 /* Blog content spacing */

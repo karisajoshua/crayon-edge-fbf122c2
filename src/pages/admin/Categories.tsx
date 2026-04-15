@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import slugify from "slugify";
-import { Trash2, Image as ImageIcon, Pencil, X, Upload, Save } from "lucide-react";
+import { Trash2, Image as ImageIcon, Pencil, X, Save } from "lucide-react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -26,17 +26,12 @@ const Categories = () => {
     slug: "",
     description: "",
     color: "#A3C7E5",
+    image_url: "",
   });
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [deletingId, setDeletingId] = useState<string | null>(null);
-  const [uploading, setUploading] = useState(false);
 
-  // Edit state
   const [editingId, setEditingId] = useState<string | null>(null);
-  const [editFormData, setEditFormData] = useState({ name: "", description: "", color: "" });
-  const [editImageFile, setEditImageFile] = useState<File | null>(null);
-  const [editImagePreview, setEditImagePreview] = useState<string | null>(null);
+  const [editFormData, setEditFormData] = useState({ name: "", description: "", color: "", image_url: "" });
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -48,49 +43,26 @@ const Categories = () => {
     if (data) setCategories(data);
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setImageFile(file);
-      setImagePreview(URL.createObjectURL(file));
-    }
-  };
-
-  const uploadImage = async (file: File) => {
-    const ext = file.name.split(".").pop();
-    const path = `category-images/${Date.now()}.${ext}`;
-    const { error } = await supabase.storage.from("blog-images").upload(path, file);
-    if (error) throw error;
-    const { data: urlData } = supabase.storage.from("blog-images").getPublicUrl(path);
-    return urlData.publicUrl;
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setUploading(true);
     try {
-      let image_url: string | null = null;
-      if (imageFile) image_url = await uploadImage(imageFile);
-
       const { error } = await supabase.from("categories").insert([{
-        ...formData,
+        name: formData.name,
+        description: formData.description,
+        color: formData.color,
         slug: slugify(formData.name, { lower: true, strict: true }),
-        image_url,
+        image_url: formData.image_url || null,
       }]);
 
       if (error) {
         toast.error(error.message || "Failed to create category");
       } else {
         toast.success("Category created successfully!");
-        setFormData({ name: "", slug: "", description: "", color: "#A3C7E5" });
-        setImageFile(null);
-        setImagePreview(null);
+        setFormData({ name: "", slug: "", description: "", color: "#A3C7E5", image_url: "" });
         fetchCategories();
       }
     } catch (err: any) {
       toast.error(err.message || "Failed to create category");
-    } finally {
-      setUploading(false);
     }
   };
 
@@ -110,48 +82,40 @@ const Categories = () => {
 
   const startEditing = (category: any) => {
     setEditingId(category.id);
-    setEditFormData({ name: category.name, description: category.description || "", color: category.color || "#A3C7E5" });
-    setEditImageFile(null);
-    setEditImagePreview(category.image_url || null);
+    setEditFormData({
+      name: category.name,
+      description: category.description || "",
+      color: category.color || "#A3C7E5",
+      image_url: category.image_url || "",
+    });
   };
 
   const cancelEditing = () => {
     setEditingId(null);
-    setEditImageFile(null);
-    setEditImagePreview(null);
-  };
-
-  const handleEditImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setEditImageFile(file);
-      setEditImagePreview(URL.createObjectURL(file));
-    }
   };
 
   const handleRemoveImage = async (categoryId: string) => {
     setSaving(true);
     const { error } = await supabase.from("categories").update({ image_url: null }).eq("id", categoryId);
     if (error) toast.error("Failed to remove image");
-    else { toast.success("Image removed!"); setEditImagePreview(null); fetchCategories(); }
+    else {
+      toast.success("Image removed!");
+      setEditFormData({ ...editFormData, image_url: "" });
+      fetchCategories();
+    }
     setSaving(false);
   };
 
   const handleUpdate = async (categoryId: string) => {
     setSaving(true);
     try {
-      let image_url: string | undefined = undefined;
-      if (editImageFile) image_url = await uploadImage(editImageFile);
-
-      const updateData: any = {
+      const { error } = await supabase.from("categories").update({
         name: editFormData.name,
         description: editFormData.description,
         color: editFormData.color,
         slug: slugify(editFormData.name, { lower: true, strict: true }),
-      };
-      if (image_url) updateData.image_url = image_url;
-
-      const { error } = await supabase.from("categories").update(updateData).eq("id", categoryId);
+        image_url: editFormData.image_url || null,
+      }).eq("id", categoryId);
       if (error) toast.error(error.message);
       else { toast.success("Category updated!"); cancelEditing(); fetchCategories(); }
     } catch (err: any) {
@@ -186,11 +150,17 @@ const Categories = () => {
                 <Input id="color" type="color" value={formData.color} onChange={(e) => setFormData({ ...formData, color: e.target.value })} />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="category-image">Featured Image</Label>
-                <Input id="category-image" type="file" accept="image/*" onChange={handleImageChange} />
-                {imagePreview && <img src={imagePreview} alt="Preview" className="w-full h-32 object-cover rounded-lg mt-2" />}
+                <Label htmlFor="category-image">Featured Image URL</Label>
+                <Input
+                  id="category-image"
+                  type="url"
+                  value={formData.image_url}
+                  onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
+                  placeholder="Paste image URL from Media library"
+                />
+                {formData.image_url && <img src={formData.image_url} alt="Preview" className="w-full h-32 object-cover rounded-lg mt-2" />}
               </div>
-              <Button type="submit" disabled={uploading}>{uploading ? "Creating..." : "Create Category"}</Button>
+              <Button type="submit">Create Category</Button>
             </form>
           </CardContent>
         </Card>
@@ -215,18 +185,21 @@ const Categories = () => {
                       <Input type="color" value={editFormData.color} onChange={(e) => setEditFormData({ ...editFormData, color: e.target.value })} />
                     </div>
                     <div className="space-y-2">
-                      <Label>Featured Image</Label>
-                      {editImagePreview && (
+                      <Label>Featured Image URL</Label>
+                      <Input
+                        type="url"
+                        value={editFormData.image_url}
+                        onChange={(e) => setEditFormData({ ...editFormData, image_url: e.target.value })}
+                        placeholder="Paste image URL from Media library"
+                      />
+                      {editFormData.image_url && (
                         <div className="relative">
-                          <img src={editImagePreview} alt="Current" className="w-full h-32 object-cover rounded-lg" />
+                          <img src={editFormData.image_url} alt="Current" className="w-full h-32 object-cover rounded-lg" />
                           <Button type="button" variant="destructive" size="sm" className="absolute top-2 right-2" onClick={() => handleRemoveImage(category.id)} disabled={saving}>
                             <X className="w-3 h-3 mr-1" /> Remove
                           </Button>
                         </div>
                       )}
-                      <div className="flex items-center gap-2">
-                        <Input type="file" accept="image/*" onChange={handleEditImageChange} />
-                      </div>
                     </div>
                     <div className="flex gap-2">
                       <Button onClick={() => handleUpdate(category.id)} disabled={saving}>

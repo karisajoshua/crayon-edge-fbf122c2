@@ -26,10 +26,9 @@ const ToolkitManager = () => {
     title: "",
     description: "",
     category: "General",
+    image_url: "",
+    file_url: "",
   });
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [downloadFile, setDownloadFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   useEffect(() => {
     fetchItems();
@@ -43,43 +42,25 @@ const ToolkitManager = () => {
     if (data) setItems(data);
   };
 
-  const uploadFile = async (file: File, folder: string) => {
-    const ext = file.name.split(".").pop();
-    const path = `${folder}/${Date.now()}.${ext}`;
-    const { error } = await supabase.storage.from("blog-images").upload(path, file);
-    if (error) throw error;
-    const { data: urlData } = supabase.storage.from("blog-images").getPublicUrl(path);
-    return urlData.publicUrl;
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      let image_url: string | null = null;
-      let file_url: string | null = null;
-
-      if (imageFile) image_url = await uploadFile(imageFile, "toolkit-images");
-      if (downloadFile) file_url = await uploadFile(downloadFile, "toolkit-files");
-
       const { error } = await supabase.from("toolkit_items").insert([
         {
           title: formData.title,
           description: formData.description,
           category: formData.category,
-          image_url,
-          file_url,
+          image_url: formData.image_url || null,
+          file_url: formData.file_url || null,
         },
       ]);
 
       if (error) throw error;
 
       toast.success("Resource added successfully!");
-      setFormData({ title: "", description: "", category: "General" });
-      setImageFile(null);
-      setDownloadFile(null);
-      setImagePreview(null);
+      setFormData({ title: "", description: "", category: "General", image_url: "", file_url: "" });
       fetchItems();
     } catch (err: any) {
       toast.error(err.message || "Failed to add resource");
@@ -95,14 +76,6 @@ const ToolkitManager = () => {
     } else {
       toast.success("Resource deleted!");
       fetchItems();
-    }
-  };
-
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setImageFile(file);
-      setImagePreview(URL.createObjectURL(file));
     }
   };
 
@@ -154,31 +127,38 @@ const ToolkitManager = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="image">Cover Image</Label>
-                <Input id="image" type="file" accept="image/*" onChange={handleImageChange} />
-                {imagePreview && (
-                  <img src={imagePreview} alt="Preview" className="w-full h-32 object-cover rounded-lg mt-2" />
+                <Label htmlFor="image_url">Image URL</Label>
+                <Input
+                  id="image_url"
+                  type="url"
+                  value={formData.image_url}
+                  onChange={(e) => setFormData({ ...formData, image_url: e.target.value })}
+                  placeholder="Paste image URL from Media library"
+                />
+                {formData.image_url && (
+                  <img src={formData.image_url} alt="Preview" className="w-full h-32 object-cover rounded-lg mt-2" />
                 )}
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="download">Downloadable File (PDF, etc.)</Label>
+                <Label htmlFor="file_url">Downloadable File URL</Label>
                 <Input
-                  id="download"
-                  type="file"
-                  accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.zip"
-                  onChange={(e) => setDownloadFile(e.target.files?.[0] || null)}
+                  id="file_url"
+                  type="url"
+                  value={formData.file_url}
+                  onChange={(e) => setFormData({ ...formData, file_url: e.target.value })}
+                  placeholder="Paste file URL (PDF, etc.)"
                 />
-                {downloadFile && (
+                {formData.file_url && (
                   <p className="text-sm text-muted-foreground flex items-center gap-1">
                     <FileDown className="w-4 h-4" />
-                    {downloadFile.name}
+                    File URL set
                   </p>
                 )}
               </div>
 
               <Button type="submit" disabled={loading} className="w-full">
-                {loading ? "Uploading..." : "Add Resource"}
+                {loading ? "Adding..." : "Add Resource"}
               </Button>
             </form>
           </CardContent>

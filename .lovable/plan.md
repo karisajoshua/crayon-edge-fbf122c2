@@ -1,30 +1,32 @@
+## Plan: Editable Toolkit Resources
 
-
-## Plan: Editable Categories with Image Management
-
-### Problem
-Currently, categories can only be created or deleted — there's no way to edit a category's name, description, color, or image after creation.
-
-### Solution
-Refactor `src/pages/admin/Categories.tsx` to support inline editing of each category, including:
-
-1. **Edit mode per category** — Click an "Edit" button on any category card to expand an edit form inline
-2. **Upload/replace featured image** — File input to upload a new image (replaces existing one)
-3. **Remove featured image** — Button to clear the image (sets `image_url` to null) without deleting the category
-4. **Edit name, description, color** — All fields editable inline
-5. **Save changes** — Updates the category via Supabase `update()`
+Currently the admin toolkit page only supports adding and deleting resources. This plan adds inline editing so admins can modify existing resources without deleting and recreating them.
 
 ### Changes
 
-**File: `src/pages/admin/Categories.tsx`**
-- Add `editingId` state to track which category is being edited
-- Add `editFormData` state for the editing form fields
-- For each category card, add Edit (pencil) button next to the Delete button
-- When editing, show inline form with name, description, color, and image fields
-- Add "Upload Image" / "Remove Image" / "Save" / "Cancel" buttons
-- `handleUpdate` function: uploads new image if provided, then calls `supabase.from("categories").update(...)` 
-- `handleRemoveImage` function: sets `image_url` to null via update
-- Import `Pencil`, `X`, `Upload` icons from lucide-react
+**File: `src/pages/admin/ToolkitManager.tsx`**
 
-No database changes needed — the `categories` table already supports `UPDATE` for admins via existing RLS policy.
+1. **Add edit state**
+   - `editingId` — tracks which resource is in edit mode
+   - `editFormData` — holds the form values while editing
 
+2. **Add edit actions**
+   - `handleEdit(item)` — populates the edit form with the selected resource's data
+   - `handleUpdate(id)` — submits changes to `toolkit_items` via Supabase `update()`
+   - `cancelEdit()` — clears edit state
+
+3. **UI updates for existing resources**
+   - Each resource card gets an "Edit" (pencil) button alongside the Delete button
+   - When a resource is in edit mode, inline form fields replace the read-only display:
+     - Title input
+     - Description textarea
+     - Category input
+     - Image URL input with live preview
+     - File URL input
+   - "Save" and "Cancel" buttons shown while editing
+
+4. **Imports**
+   - Add `Pencil`, `X`, and `Save` icons from `lucide-react`
+
+### No database changes needed
+The `toolkit_items` table already supports `UPDATE` for admins via existing RLS policy.
